@@ -45,7 +45,7 @@ names.addkeys({
     '+{F8}': 'expand',
     '+{F3}': 'fader',
     '!': ('focuspoint','fp'),
-    'f': 'full',
+    'f': ('full','fl'),
     'g': 'group',
     '?': 'help',
     'b': 'label',
@@ -86,6 +86,7 @@ names.addkeys({
 for i in range(1,9):
     names.addkey('^{{F{i}}}'.format(i=i),'soft{}'.format(i),
                  'softkey{}'.format(i),'s{}'.format(i))
+names.addseq("<enter><enter>","confirm","confirmed","dblenter","enterenter","doubleenter")
 names.addseq("<stage><macroenter><clear><stage>","forcestage")
 names.addseq("<setup>3<enter>1<enter><enter><stage>","save")
 names.addseq("<setup>4<enter><s1><enter>","reset")
@@ -101,8 +102,10 @@ def list_to_str(keys):
     return " ".join([get(i) for i in keys])
 
 def parse_str(keys):
+    ### keys should be a nice, human-readable string
     keylist = []
-    keys = keys.split()
+    ## < and > may be inserted in the source to make it more readable, they will be ignored.
+    keys = keys.replace("<"," ").replace(">"," ").split()
     keys.reverse()
     while len(keys) > 0:
         orig_key = key = keys.pop()
@@ -123,7 +126,7 @@ def parse_str(keys):
         if 5 > pos > 0:
             for i in range(pos):
                 keys.pop()
-        elif pos == 6:
+        elif pos == 6 or pos == -5:
             keylist.append(orig_key)
     return list_to_str(keylist)
             

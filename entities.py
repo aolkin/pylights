@@ -1,8 +1,6 @@
 from __future__ import division, unicode_literals
 
-import sender
-import keys
-
+import sender, keys, fields
 
 class Entity:
 
@@ -23,7 +21,36 @@ class Entity:
         return object.__repr__(self).replace("object",str(self))
 
     def _keys(self):
-        return self.keystr
+        if hasattr(self,"keystr"):
+            return self.keystr
+        else:
+            raise NotImplementedError("Subclasses must implement _keys")
 
     def send(self):
         sender.send(self._keys())
+
+
+class DictEntity(Entity,dict):
+    __init__ = dict.__init__
+
+    def _keys(self):
+        if not hasattr(self,"_keyformat"):
+            raise NotImplementedError("Subclasses must define _keyformat")
+        return keys.parse_str(self._keyformat.format(e=self))
+
+    def __getitem__(self,key):
+        if self.get(key) != None:
+            if key == fields.LABEL:
+                return dict.__getitem__(self,key).replace(" ","{SPACE}")
+            return dict.__getitem__(self,key)
+        elif key not in self._fields:
+            raise KeyError("{} does not have a {} field!".format(self.__class__.__name__,key))
+        else:
+            return ""
+
+    def __setitem__(self,key,val):
+        if key not in self._fields:
+            raise KeyError("'{}' is an invalid {} field!".format(key,self.__class__.__name__))
+        if fields.validateField(key,val) == False:
+            raise TypeError("Supplied value is invalid for {} field!".format(key))
+        dict.__setitem__(self,key,val)

@@ -13,6 +13,9 @@ FOLLOW = "FOLLOW"
 RATE = "RATE"
 LEVEL = "LEVEL"
 LEVELS = "LEVELS"
+STEP = "STEP"
+STEPS = "STEPS"
+STYLE = "STYLE"
 
 ### Validator function
 def validateField(field,value):
@@ -23,11 +26,39 @@ def validateField(field,value):
     elif field == LEVELS:
         return isinstance(value,Levels)
 
-class Field(dict):
+class Field():
     pass
+class DictField(Field,dict):
+    pass
+class List(Field,list):
+    def __init__(self,type_=None,*args,**kwargs):
+        self._contains = type_
+        for i in args:
+            self._validate(i)
+        list.__init__(self,*args)
+        super(List,self).__init__(self,**kwargs)
+
+    def __str__(self):
+        out = ""
+        for i in self:
+            out += str(i)+"\n"
+        return out
+        
+    def _validate(self,item):
+        if self._contains and not isinstance(item,self._contains):
+            raise TypeError("Supplied object is not of type '{}'!".format(
+                self._contains.__name__))
+            
+    def append(self,item):
+        self._validate(item)
+        super(List,self).append(item)
+        
+    def __setitem__(self,key,val):
+        self._validate(val)
+        super(List,self).__setitem__(key,val)
 
 ### Complex Fields
-class Levels(Field):
+class Levels(DictField):
     def __str__(self):
         out = ""
         for i in self:

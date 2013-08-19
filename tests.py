@@ -2,3 +2,7 @@
 
 import easygui
 from fields import *
+import sender, keys
+
+def send_str(string):
+    sender.send(keys.parse_str(string))

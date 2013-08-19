@@ -39,9 +39,15 @@ class DictEntity(Entity,dict):
         return keys.parse_str(self._keyformat.format(e=self))
 
     def __getitem__(self,key):
+        if key == fields.TYPE:
+            if hasattr(self,"_type"):
+                return self._type
         if self.get(key) != None:
             if key == fields.LABEL:
-                return dict.__getitem__(self,key).replace(" ","{SPACE}")
+                return "{F6} "+dict.__getitem__(self,key).replace(" ","{SPACE}")
+            if key == fields.LEVEL:
+                if self.get(key) == 100: return "Full"
+                else: return "{:02}".format(self.get(key))
             return dict.__getitem__(self,key)
         elif key not in self._fields:
             raise KeyError("{} does not have a {} field!".format(self.__class__.__name__,key))

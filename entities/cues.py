@@ -1,4 +1,4 @@
-from entities import DictEntity,Entity
+from . import DictEntity,Entity
 
 from fields import *
 

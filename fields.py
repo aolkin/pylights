@@ -16,6 +16,11 @@ LEVELS = "LEVELS"
 STEP = "STEP"
 STEPS = "STEPS"
 STYLE = "STYLE"
+DWELL = "DWELL"
+TIME = "TIME"
+LOW = LOWLEVEL = "LOWLEVEL"
+HIGH = HIGHLEVEL = "HIGHLEVEL"
+CHANNELS = "CHANNELS"
 
 ### Validator function
 def validateField(field,value):
@@ -59,14 +64,16 @@ class List(Field,list):
 
 ### Complex Fields
 class Levels(DictField):
+    _channel_format = "Channel {chan} at {level}"
+
     def __str__(self):
         out = ""
         for i in self:
-            out += "Channel {} at ".format(i)
             if self[i] < 100:
-                out += "{:02}\n".format(self[i])
+                level = "{:02}".format(self[i])
             else:
-                out += "Full\n"
+                level = "Full"
+            out += (" "*8)+self._channel_format.format(c=i,l=level)+"\n"
         return out
     
     def __setitem__(self,key,val):

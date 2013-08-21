@@ -1,4 +1,4 @@
-from __future__ import unicode_literals, division
+from __future__ import division
 
 class KeyMap(dict):
     def addkeys(self,d):
@@ -81,7 +81,9 @@ names.addkeys({
     '+{F4}': 'tracksheet',
     '*': 'type',
     '{UP}': ('up','uparrow'),
-    'w': 'wait'
+    'w': 'wait',
+    '{SPACE}':'space',
+    '+=': ('+','plus')
 })
 for i in range(1,9):
     names.addkey('^{{F{i}}}'.format(i=i),'soft{}'.format(i),
@@ -92,6 +94,7 @@ names.addseq("<setup>3<enter>1<enter><enter><stage>","save")
 names.addseq("<setup>4<enter><s1><enter>","reset")
 names.addseq("<blind><s6>","deletecue")
 names.addseq("<blind><sub><s6>","deletesub","deletesubmaster")
+names.addseq("<space>"*20,"pause")
 
 def get(name,strict=False):
     if not strict:

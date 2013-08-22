@@ -1,5 +1,7 @@
 """Reads and writes ETC's .prs Personality files."""
 
+from collections import Sequence
+
 from . import Readable,Writeable
 
 class PChannel(Writeable,Readable):
@@ -12,10 +14,13 @@ class PChannel(Writeable,Readable):
     def from_struct(cls,attrs,atype,home,dispformat,dimmer):
         return cls(atype,dimmer,home,dispformat,attrs)
 
+    def to_struct(self):
+        return (self.attrs,None,None,None,self.atype,self.home,self.dispformat,self.dimmer)
+
     def __init__(self,atype,dimmer,home=0,dispformat=0,attrs=None,
                  independent=False,LTP=False,sixteenbit=False,flipped=False):
         self.atype = atype
-        self.dimmer = dimmer
+        self.__dimmer = dimmer
         self.home = home
         self.dispformat = dispformat
         self.independent = independent
@@ -26,16 +31,20 @@ class PChannel(Writeable,Readable):
             self.attrs = attrs
 
     @property
+    def dimmer(self):
+        return self.__dimmer
+
+    @property
     def attrs(self):
         return int(("1" if self.flipped else "0")+("1" if self.sixteenbit else "0")+
                    ("1" if self.LTP else "0")+("1" if self.independent else "0"),2)
 
     @attrs.setter
     def attrs(self,a):
-        self.independent = a&1 != 0
-        self.LTP = a&2 != 0
-        self.sixteenbit = a&3 != 0
-        self.flipped = a&4 != 0
+        self.independent = (a & 1) != 0
+        self.LTP = (a & 2) != 0
+        self.sixteenbit = (a & 4) != 0
+        self.flipped = (a & 8) != 0
 
     def niceattrs(self):
         attrs = []
@@ -43,32 +52,59 @@ class PChannel(Writeable,Readable):
             if getattr(self,i):
                 attrs.append(self._attributes[i])
         if len(attrs) < 2:
-            return "".join(attrs)
+            return "".join(attrs)+(" " if len(attrs) > 0 else "")
         elif len(attrs) == 2:
-            return " and ".join(attrs)
+            return " and ".join(attrs)+" "
         else:
-            return ", ".join(attrs[:-1])+", and "+attrs[-1]
+            return ", ".join(attrs[:-1])+", and "+attrs[-1]+" "
 
     def __str__(self):
-        return "<{} {} Channel on Dimmer {}>".format(self.niceattrs(),
-                                                     _attribute_types[self.atype],self.dimmer)
+        return "<{}{} Channel on Dimmer {}>".format(
+            self.niceattrs(),_attribute_types[self.atype],self.dimmer+1)
+    __repr__ = __str__
 
 class Personality(Writeable,Readable):
+    class __ChannelList(Sequence):
+        def __init__(self,l):
+            self.__list = []
+            for i in l:
+                self.add(i)
+        
+        def add(self,channel):
+            if type(channel) != PChannel:
+                raise TypeError("Can only add {} objects.".format(PChannel))
+            n = channel.dimmer+1
+            if channel.dimmer == len(self.__list):
+                self.__list.append(channel)
+            elif n > len(self.__list):
+                for i in range(len(self.__list),n):
+                    self.add(PChannel(0,i))
+            self.__list[channel.dimmer] = channel
+            
+        def __getitem__(self,key):
+            return self.__list.__getitem__(key)
+
+        def __len__(self):
+            return len(self.__list)
+
+        def __repr__(self):
+            return "{}({})".format(self.__class__.__name__,self.__list)
+
     _struct_format = ">3lH12sbB"+("8s"*64)
     _struct_fields = (None,None,None,"numchannels","label",None,"remdim")+(("*channels",)*64)
     _struct_structs = dict(channels=PChannel)
 
     @classmethod
     def from_struct(cls,numchannels,label,remdim,channels):
-        p = cls(label,remdim=remdim)
-        for i in range(numchannels):
-            p.addChannel(channels[i])
-        return p
+        return cls(label,channels[:numchannels],remdim)
+
+    def to_struct(self):
+        return ( (None,None,None,len(self.channels),self.label,None,self.remote_dimmer)+
+                 tuple(self.channels)+
+                 tuple(PChannel(0,0) for i in range(64-len(self.channels))) )
 
     def __init__(self,label="",channels=[],remdim=False):
-        self.__channels = []
-        for i in channels:
-            self.addChannel(i)
+        self.channels = channels
         self.label = label
         self.remote_dimmer = remdim
 
@@ -79,29 +115,20 @@ class Personality(Writeable,Readable):
         if key == "remote_dimmer":
             if 1 < int(val) or int(val) < 0:
                 raise ValueError("RemoteDimmer must be a Boolean value!")
-        else:
-            super(Personality,self).__setattr__(key,val)
+        super(Personality,self).__setattr__(key,val)
 
-    def __setitem__(self,key,val):
-        if 0 > key or key >= len(self.__channels):
-            raise IndexError("No Channel with that index exists yet!")
-        self.__channels[key] = val ### Add validation
-
-    def __getitem__(self,key):
-        return self.__channels[key]
-
-    def addChannel(self,c):
-        self.__channels.append(c)
+    def addChannel(self,atype,dimmer=None,**kwargs):
+        if dimmer == None:
+            dimmer = len(self.__channels)
+        self.__channels.add(PChannel(atype,dimmer,**kwargs))
 
     @property
     def channels(self):
-        return self.__channels[:]
+        return self.__channels
 
     @channels.setter
     def channels(self,c):
-        self.__channels = []
-        for i in val:
-            self.addChannel(i)
+        self.__channels = Personality.__ChannelList(c)
 
 
 _attribute_types = [

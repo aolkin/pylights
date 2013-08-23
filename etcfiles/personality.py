@@ -17,9 +17,12 @@ class PChannel(Writeable,Readable):
     def to_struct(self):
         return (self.attrs,None,None,None,self.atype,self.home,self.dispformat,self.dimmer)
 
-    def __init__(self,dimmer,atype=None,home=0,dispformat=0,attrs=None,type=None,
+    def __init__(self,dimmer,atype=0,home=0,dispformat=0,attrs=None,type=None,
                  independent=False,LTP=False,sixteenbit=False,flipped=False):
-        self.atype = atype
+        if not (atype < len_attribute_types):
+            self.atype = atype
+        else:
+            self.atype = 0
         if type:
             self.type = type
         self.__dimmer = dimmer

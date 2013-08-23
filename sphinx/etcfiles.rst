@@ -24,9 +24,9 @@ The :mod:`etcfiles.personality` module provides two public classes for working w
 Personalities. Unlike :class:`etcfiles.shwfile.Showfile`, the :class:`Personality` class may
 be read from and written to ETC personality files directly and should have no problems.
 
-The :class:`Personality` and :class:`PChannel` classes support all of the data stored in a
-personality file by the "Personality Editor", even though much of it may not be used by all
-consoles. For that reason, for now, only the more common features are documented.
+.. The :class:`Personality` and :class:`PChannel` classes support all of the data stored in a
+   personality file by the "Personality Editor", even though much of it may not be used by all
+   consoles. For that reason, for now, only the more common features are documented.
 
 .. autoclass:: Personality
 
@@ -104,6 +104,86 @@ consoles. For that reason, for now, only the more common features are documented
 
 .. autoclass:: PChannel
 
+   When constructing a new :class:`PChannel`, the only required argument is the channel
+   (`dimmer`) where this :class:`PChannel` will be placed. This must be specified when the object
+   is created, as it cannot be changed after instantiation.
+
+   .. attribute:: dimmer
+
+      This attribute provides read-only access to the channel this :class:`PChannel` resides at.
+
+   The type of a channel and other attributes do not need to be specified when the
+   :class:`PChannel` is created and they can be changed later. Additionally, most provide
+   multiple ways of accessing/setting their values.
+
+   While the channel type does not need to be specified at :class:`PChannel` creation time, it is
+   reccomended. This can be done by either specifying the :attr:`atype` parameter or the
+   :attr:`type` parameter. After creation, the type can be changed via those attributes in the
+   same way:
+
+   .. attribute:: type
+
+      This must be a string from :data:`_attribute_types`. It provides a more readable way of
+      accessing the type of a :class:`PChannel`.
+
+   .. attribute:: atype
+
+      This should be an integer in the range 0-64.
+
+   These fields have only this one way of setting them:
+
+   .. attribute:: home
+
+      This should be an integer in the range 0-255.
+
+   .. attribute:: dispformat
+
+      This should be an integer that maps to one of the values in :data:`_display_types`.
+
+   .. Note:: The ETC console I work with does not use these fields, but they exist in ETC's
+	     Personality Editor, so they are supported here.
+
+   The channel attributes are stored as one byte in ETC's format, so they provide a way to
+   access that representation. They can also be accessed as invididual attributes.
+
+   .. attribute:: attrs
+
+      An integer representation of the channel attributes byte. If this is provided at creation
+      time, it overrides any attributes that may have been set individually.
+
+   .. method:: niceattrs
+
+      Provides a nice human-readable string representation of the :class:`PChannel`'s channel
+      attributes, mainly for use in display.
+
+   Channel attributes can also be accessed and set individually, in which case they should only
+   be set to boolean values. If unspecified, they default to `False`.
+
+   .. attribute:: independent
+
+      Controls whether the channel is affected by the :term:`Grandmaster`.
+
+   .. attribute:: LTP
+
+      If set, the channel will not reset to zero (or its :attr:`home`?) automatically.
+
+   .. attribute:: flipped
+
+      If set, the channel output will be the opposite of the value you set.
+
+   .. attribute:: sixteenbit
+
+      Uses two channels to represent a larger value, giving finer-grained control.
+
+      .. Warning:: I don't fully understand how this is represented, so while it should read fine,
+		   attempts to set it may cause unexpected results.
+
+      Neither :class:`Personality` nor :class:`PChannel` will automatically manage 16 Bit channels
+      for you, so if you wish to add one you must do so yourself. A 16 Bit channel is internally
+      represented (by ETC) as two channels. It is unknown how much the settings of the second
+      channel matter, but if you wish to use a 16 Bit channel, you must create it manually. It is
+      reccomended to use the same settings as the first channel, except without the 16 Bit
+      attribute set, and with the dimmer set one up, of course.
 
 The :mod:`etcfiles.personality` module provides two module level constants to assist in
 generating nicer representations of the data stored in a personality. They are mainly used

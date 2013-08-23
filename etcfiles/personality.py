@@ -1,4 +1,4 @@
-"""Reads and writes ETC's .prs Personality files."""
+"""Reads and writes ETC's .prs Fixture Personality files."""
 
 from collections import Sequence
 
@@ -12,14 +12,16 @@ class PChannel(Writeable,Readable):
 
     @classmethod
     def from_struct(cls,attrs,atype,home,dispformat,dimmer):
-        return cls(atype,dimmer,home,dispformat,attrs)
+        return cls(dimmer,atype,home,dispformat,attrs)
 
     def to_struct(self):
         return (self.attrs,None,None,None,self.atype,self.home,self.dispformat,self.dimmer)
 
-    def __init__(self,atype,dimmer,home=0,dispformat=0,attrs=None,
+    def __init__(self,dimmer,atype=None,home=0,dispformat=0,attrs=None,type=None,
                  independent=False,LTP=False,sixteenbit=False,flipped=False):
         self.atype = atype
+        if type:
+            self.type = type
         self.__dimmer = dimmer
         self.home = home
         self.dispformat = dispformat
@@ -29,6 +31,14 @@ class PChannel(Writeable,Readable):
         self.flipped = flipped
         if attrs:
             self.attrs = attrs
+
+    @property
+    def type(self):
+        return _attribute_types[self.atype]
+
+    @type.setter
+    def type(self,val):
+        self.atype = _attribute_types.index(val)
 
     @property
     def dimmer(self):
@@ -59,8 +69,7 @@ class PChannel(Writeable,Readable):
             return ", ".join(attrs[:-1])+", and "+attrs[-1]+" "
 
     def __str__(self):
-        return "<{}{} Channel on Dimmer {}>".format(
-            self.niceattrs(),_attribute_types[self.atype],self.dimmer+1)
+        return "<{}{} Channel on Dimmer {}>".format(self.niceattrs(),self.type,self.dimmer+1)
     __repr__ = __str__
 
 class Personality(Writeable,Readable):
@@ -118,6 +127,8 @@ class Personality(Writeable,Readable):
         super(Personality,self).__setattr__(key,val)
 
     def addChannel(self,atype,dimmer=None,**kwargs):
+        if type(atype) != int:
+            atype = _attribute_types.index(atype)
         if dimmer == None:
             dimmer = len(self.__channels)
         self.__channels.add(PChannel(atype,dimmer,**kwargs))

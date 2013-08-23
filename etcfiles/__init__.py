@@ -1,31 +1,9 @@
-"""Functionality for working with ETC's binary data files.
-
-.. package:: etcfiles
-    :synopsis: Provides functionality for representing and working with objects
-        stored in binary files created by ETC software.
-
-.. moduleauthor:: Aaron Olkin
-
-"""
-
 import struct
 
 class Readable(object):
-    """Inherit from this and define the following attributes and methods to make
-    something "readable":
-
-    @classmethod from_struct: A classmethod constructor called to build a class
-    class attr _struct_format: a struct format string specifying the binary format
-    class attr _struct_fields: a tuple mapping the fields returned from unpacking
-        the binary struct to argument names passed into from_struct. Use None to
-        indicate fields that should be ignored, and prefix fields that should be
-        parsed into custom objects with *.
-    class attr _struct_structs: A dictionary mapping field names to the custom
-        classes on which from_string will be called.
-    """
-
     @classmethod
-    def from_string(cls,string):        
+    def from_string(cls,string):
+        """Takes a bytestring and returns an object loaded from that bytestring."""
         t = struct.unpack(cls._struct_format,string)
         d = {}
         for n,i in enumerate(cls._struct_fields):
@@ -42,10 +20,22 @@ class Readable(object):
                         d[i].append(o)
                 else:
                     d[i] = o
-        return cls.from_struct(**d)
+        try:
+            return cls(**d)
+        except TypeError:
+            return cls.from_struct(**d)
 
     @classmethod
     def from_file(cls,fn,writeable=True):
+        """
+        A wrapper around :meth:`from_string`, this takes a filename and an optional boolean
+        flag. It reads from the specified file and then calls :meth:`from_string` on its
+        contents, and returns the result.
+
+        Additionally, if the optional boolean `writeable` is True and the class inherits from
+        Writeable, the specified filename will be remembered for when the object is written
+        to a file.
+        """
         fd = open(fn,"rb")
         s = fd.read()
         fd.close()
@@ -55,20 +45,33 @@ class Readable(object):
         return c
 
     @classmethod
-    def from_struct(cls,*args):
+    def from_struct(cls,**args):
+        """
+        This classmethod must be overwritten. It will be called to create a new object
+        from a file with arguments as defined in :attr:`_struct_fields
+        """
         raise NotImplementedError("Subclasses must implement from_struct!")
 
 class Writeable(object):
     def to_string(self):
+        """Returns a :mod:`struct` packed bytestring of the object."""
         t = list(self.to_struct())
-        for n,i in enumerate(self._struct_fields):
-            if i == None:
-                t[n] = 0
-            if i and i.startswith("*"):
-                t[n] = t[n].to_string()
+        if getattr(self,"_struct_fields"):
+            for n,i in enumerate(self._struct_fields):
+                if i == None:
+                    t[n] = 0
+                if i and i.startswith("*"):
+                    t[n] = t[n].to_string()
         return struct.pack(self._struct_format,*t)
 
     def write(self,fn=None):
+        """
+        A wrapper around :meth:`to_string`, this writes the data returned by :meth:`to_string`
+        to the specified file, or, if none is specified and a filename was remembered when
+        loading the object from a file, that remembered filename will be used.
+
+        Returns True on success, for no particular reason.
+        """
         if not fn:
             try:
                 fn = self.__filename

@@ -28,7 +28,7 @@ concepts (and ideally Expression Off-Line as well), as it only explains how
 those things relate to this python interface.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    autokey
    entities

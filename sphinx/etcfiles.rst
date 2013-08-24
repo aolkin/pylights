@@ -20,8 +20,8 @@ Working with ETC Fixture Personalities
 .. module:: etcfiles.personality
    :synopsis: Allows you to use ETC's Fixture Personality files.
 
-The :mod:`etcfiles.personality` module provides two public classes for working with Fixture
-Personalities. Unlike :class:`etcfiles.shwfile.Showfile`, the :class:`Personality` class may
+The :mod:`~etcfiles.personality` module provides two public classes for working with Fixture
+Personalities. Unlike :class:`~etcfiles.shwfile.Showfile`\ s, the :class:`Personality` class may
 be read from and written to ETC personality files directly and should have no problems.
 
 .. The :class:`Personality` and :class:`PChannel` classes support all of the data stored in a
@@ -99,7 +99,7 @@ be read from and written to ETC personality files directly and should have no pr
 
       If a :class:`PChannel` is added with a dimmer beyond the length of the :attr:`channels`
       list, blank :class:`PChannel` objects are created to fill in the space between the current
-      last channel and the dimmer position of the new one. The :attr:`PChannel.atype` of these
+      last channel and the dimmer position of the new one. The :attr:`~PChannel.atype` of these
       objects is 0, or "Not Used".
 
 .. autoclass:: PChannel
@@ -185,7 +185,7 @@ be read from and written to ETC personality files directly and should have no pr
       reccomended to use the same settings as the first channel, except without the 16 Bit
       attribute set, and with the dimmer set one up, of course.
 
-The :mod:`etcfiles.personality` module provides two module level constants to assist in
+The :mod:`~etcfiles.personality` module provides two module level constants to assist in
 generating nicer representations of the data stored in a personality. They are mainly used
 internally, but are documented here anyway. They are each lists, since they only need to map
 a contiguous set of integers starting at 0, for which list indices work fine.
@@ -288,14 +288,14 @@ or even just writeable.
 
    This class functions very much like :class:`Readable`, with a few notable differences:
 
-   1. :attr:`Readable._struct_fields` is not required to write an object. It is still useful,
+   1. :attr:`~Readable._struct_fields` is not required to write an object. It is still useful,
       however, to easily write null fields, and if you want
       :ref:`recursive object packing <recursive_struct_packing>` you must define it.
-   2. :attr:`Readable._struct_structs` is unnecessary even if you are using
+   2. :attr:`~Readable._struct_structs` is unnecessary even if you are using
       :ref:`recursive object packing <recursive_struct_packing>`, because :meth:`to_string`
       just calls object's :meth:`to_string` methods. This means that subobjects must still be
       :class:`Writeable`.
-   3. :meth:`Readable.from_struct` is, of course, never necessary, but a new method,
+   3. :meth:`~Readable.from_struct` is, of course, never necessary, but a new method,
       :meth:`to_struct`, must be defined.
 
    Like :class:`Readable`, :class:`Writeable` defines two methods for binary IO, :meth:`to_string`
@@ -305,7 +305,8 @@ or even just writeable.
 
       This method will call the object's :meth:`to_struct` method to get a list of field data.
       It expects a sequence of data suitable for packing into a :mod:`struct`, although if
-      specified in :attr:`Readable._struct_fields` certain fields will be :ref:`recursively packed <recursive_struct_packing>`.
+      specified in :attr:`~Readable._struct_fields` certain fields will be
+      :ref:`recursively packed <recursive_struct_packing>`.
 
    .. automethod:: write
 
@@ -315,6 +316,6 @@ or even just writeable.
 
       You must provide this method to make a class writeable. It is given no arguments and should
       return a sequence of fields to be packed. Any non integer/string fields (depending on your
-      format string) must correspond with `*`-marked fields in :attr:`Readable._struct_fields`.
+      format string) must correspond with `*`-marked fields in :attr:`~Readable._struct_fields`.
 
       .. Warning:: This method is NOT defined by :class:`Writeable`!

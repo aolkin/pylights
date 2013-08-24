@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Documentation for EOL AutoKey &mdash; EOL AutoKey v0.5 Documentation</title>
+    <title>EOL AutoKey &mdash; EOL AutoKey v0.5</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/eol311.ico"/>
-    <link rel="top" title="EOL AutoKey v0.5 Documentation" href="#" />
-    <link rel="next" title="&lt;no title&gt;" href="autokey.html" /> 
+    <link rel="top" title="EOL AutoKey v0.5" href="#" />
+    <link rel="next" title="AutoKey Functionality - Sending Data to EOL" href="autokey.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,9 +38,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="autokey.html" title="&lt;no title&gt;"
+          <a href="autokey.html" title="AutoKey Functionality - Sending Data to EOL"
              accesskey="N">next</a> |</li>
-        <li><a href="#">EOL AutoKey v0.5 Documentation</a> &raquo;</li> 
+        <li><a href="#">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -49,11 +49,36 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="documentation-for-eol-autokey">
-<h1>Documentation for EOL AutoKey<a class="headerlink" href="#documentation-for-eol-autokey" title="Permalink to this headline">¶</a></h1>
-<p>EOL AutoKey is a suite of python software to assist in making shows for ETC consoles. It has limited file support and relies on sending keystrokes to Expression Off-Line to write most data.</p>
+  <div class="section" id="eol-autokey">
+<h1>EOL AutoKey<a class="headerlink" href="#eol-autokey" title="Permalink to this headline">¶</a></h1>
+<p>EOL AutoKey is a suite of python software to assist in making shows for ETC
+consoles. It provides an object-oriented python interface to light board
+entities, allowing you to script show creation and editing, or export nice
+representations of your show.</p>
+<p>It has limited support for reading and writing ETC&#8217;s files, and relies mainly
+on sending keystrokes to Expression Off-Line to write most data. For that
+reason, in order to write show data, you must have a windows computer and be
+able to run ETC&#8217;s Expression Off-Line software.</p>
+<p>I work with an ETC Express 48/96, so it has been optimized for that console.
+However, it should work fine with other consoles supported by Expression
+Off-Line, in theory, although it may not be able to read their showfiles.</p>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>This documentation assumes you are familiar with an ETC console and related
+concepts (and ideally Expression Off-Line as well), as it only explains how
+those things relate to this python interface.</p>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="autokey.html">AutoKey Functionality - Sending Data to EOL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="autokey.html#module-sender">The <tt class="docutils literal"><span class="pre">sender</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autokey.html#module-keys">The <tt class="docutils literal"><span class="pre">keys</span></tt> Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="autokey.html#module-internals">Module Internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autokey.html#higher-level-functionality">Higher Level Functionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autokey.html#default-contents-of-keys-names">Default Contents of <tt class="docutils literal"><span class="pre">keys.names</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="etcfiles.html">Working with Console Files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="etcfiles.html#working-with-etc-showfiles">Working with ETC Showfiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="etcfiles.html#module-etcfiles.personality">Working with ETC Fixture Personalities</a></li>
@@ -63,6 +88,7 @@
 </ul>
 </div>
 </div>
+</div>
 
 
           </div>
@@ -70,9 +96,19 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EOL AutoKey</a><ul>
+<li><a class="reference internal" href="#documentation">Documentation</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Next topic</h4>
   <p class="topless"><a href="autokey.html"
-                        title="next chapter">&lt;no title&gt;</a></p>
+                        title="next chapter">AutoKey Functionality - Sending Data to EOL</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -105,9 +141,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="autokey.html" title="&lt;no title&gt;"
+          <a href="autokey.html" title="AutoKey Functionality - Sending Data to EOL"
              >next</a> |</li>
-        <li><a href="#">EOL AutoKey v0.5 Documentation</a> &raquo;</li> 
+        <li><a href="#">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

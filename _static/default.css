@@ -155,6 +155,10 @@ dt:target, .highlighted {
     padding: 0px 2px;
 }
 
+table.indextable tr.cap {
+    background-color: #303030;
+}
+
 /* -- hyperlink styles ------------------------------------------------------ */
 
 a {
@@ -285,7 +289,7 @@ tt {
 }
 
 th {
-    background-color: #ede;
+    background-color: #252525;
 }
 
 .warning tt {

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Working with Console Files &mdash; EOL AutoKey v0.5 Documentation</title>
+    <title>Working with Console Files &mdash; EOL AutoKey v0.5</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/eol311.ico"/>
-    <link rel="top" title="EOL AutoKey v0.5 Documentation" href="index.html" />
+    <link rel="top" title="EOL AutoKey v0.5" href="index.html" />
     <link rel="prev" title="&lt;no title&gt;" href="entities.html" /> 
   </head>
   <body>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="entities.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">EOL AutoKey v0.5 Documentation</a> &raquo;</li> 
+        <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -60,12 +60,9 @@ of showfiles may be read (eventually...that&#8217;s not implemented yet).</p>
 </div>
 <div class="section" id="module-etcfiles.personality">
 <span id="working-with-etc-fixture-personalities"></span><h2>Working with ETC Fixture Personalities<a class="headerlink" href="#module-etcfiles.personality" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#module-etcfiles.personality" title="etcfiles.personality: Allows you to use ETC's Fixture Personality files."><tt class="xref py py-mod docutils literal"><span class="pre">etcfiles.personality</span></tt></a> module provides two public classes for working with Fixture
-Personalities. Unlike <tt class="xref py py-class docutils literal"><span class="pre">etcfiles.shwfile.Showfile</span></tt>, the <a class="reference internal" href="#etcfiles.personality.Personality" title="etcfiles.personality.Personality"><tt class="xref py py-class docutils literal"><span class="pre">Personality</span></tt></a> class may
+<p>The <a class="reference internal" href="#module-etcfiles.personality" title="etcfiles.personality: Allows you to use ETC's Fixture Personality files."><tt class="xref py py-mod docutils literal"><span class="pre">personality</span></tt></a> module provides two public classes for working with Fixture
+Personalities. Unlike <tt class="xref py py-class docutils literal"><span class="pre">Showfile</span></tt>s, the <a class="reference internal" href="#etcfiles.personality.Personality" title="etcfiles.personality.Personality"><tt class="xref py py-class docutils literal"><span class="pre">Personality</span></tt></a> class may
 be read from and written to ETC personality files directly and should have no problems.</p>
-<p>The <a class="reference internal" href="#etcfiles.personality.Personality" title="etcfiles.personality.Personality"><tt class="xref py py-class docutils literal"><span class="pre">Personality</span></tt></a> and <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> classes support all of the data stored in a
-personality file by the &#8220;Personality Editor&#8221;, even though much of it may not be used by all
-consoles. For that reason, for now, only the more common features are documented.</p>
 <dl class="class">
 <dt id="etcfiles.personality.Personality">
 <em class="property">class </em><tt class="descclassname">etcfiles.personality.</tt><tt class="descname">Personality</tt><big>(</big><em>label=''</em>, <em>channels=</em><span class="optional">[</span><span class="optional">]</span>, <em>remdim=False</em><big>)</big><a class="headerlink" href="#etcfiles.personality.Personality" title="Permalink to this definition">¶</a></dt>
@@ -121,7 +118,7 @@ replace channels (see its documentation).</p>
 
 <p>Channels may be added to a personality through its <a class="reference internal" href="#etcfiles.personality.Personality.addChannel" title="etcfiles.personality.Personality.addChannel"><tt class="xref py py-meth docutils literal"><span class="pre">addChannel()</span></tt></a> method, or its
 <a class="reference internal" href="#etcfiles.personality.Personality.channels.add" title="etcfiles.personality.Personality.channels.add"><tt class="xref py py-meth docutils literal"><span class="pre">channels.add()</span></tt></a> method. To replace existing channels, simply create a new one with the
-same <tt class="xref py py-attr docutils literal"><span class="pre">PChannel.dimmer</span></tt> value as an existing one and add it using either of these methods,
+same <a class="reference internal" href="#etcfiles.personality.PChannel.dimmer" title="etcfiles.personality.PChannel.dimmer"><tt class="xref py py-attr docutils literal"><span class="pre">PChannel.dimmer</span></tt></a> value as an existing one and add it using either of these methods,
 and it will replace the existing one.</p>
 <dl class="method">
 <dt id="etcfiles.personality.Personality.addChannel">
@@ -142,12 +139,12 @@ integer value.</p>
 <dt id="etcfiles.personality.Personality.channels.add">
 <tt class="descclassname">channels.</tt><tt class="descname">add</tt><big>(</big><em>channel</em><big>)</big><a class="headerlink" href="#etcfiles.personality.Personality.channels.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method takes an already-instantiated <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> object and adds it to
-<a class="reference internal" href="#etcfiles.personality.Personality.channels" title="etcfiles.personality.Personality.channels"><tt class="xref py py-attr docutils literal"><span class="pre">channels</span></tt></a> at whatever position is specified by <tt class="xref py py-attr docutils literal"><span class="pre">PChannel.dimmer</span></tt> for that
+<a class="reference internal" href="#etcfiles.personality.Personality.channels" title="etcfiles.personality.Personality.channels"><tt class="xref py py-attr docutils literal"><span class="pre">channels</span></tt></a> at whatever position is specified by <a class="reference internal" href="#etcfiles.personality.PChannel.dimmer" title="etcfiles.personality.PChannel.dimmer"><tt class="xref py py-attr docutils literal"><span class="pre">PChannel.dimmer</span></tt></a> for that
 channel, overwriting any that may already have been there. Any attempts to add
 non-<a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> objects will raise a <tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt>.</p>
 <p>If a <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> is added with a dimmer beyond the length of the <a class="reference internal" href="#etcfiles.personality.Personality.channels" title="etcfiles.personality.Personality.channels"><tt class="xref py py-attr docutils literal"><span class="pre">channels</span></tt></a>
 list, blank <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> objects are created to fill in the space between the current
-last channel and the dimmer position of the new one. The <tt class="xref py py-attr docutils literal"><span class="pre">PChannel.atype</span></tt> of these
+last channel and the dimmer position of the new one. The <a class="reference internal" href="#etcfiles.personality.PChannel.atype" title="etcfiles.personality.PChannel.atype"><tt class="xref py py-attr docutils literal"><span class="pre">atype</span></tt></a> of these
 objects is 0, or &#8220;Not Used&#8221;.</p>
 </dd></dl>
 
@@ -155,10 +152,110 @@ objects is 0, or &#8220;Not Used&#8221;.</p>
 
 <dl class="class">
 <dt id="etcfiles.personality.PChannel">
-<em class="property">class </em><tt class="descclassname">etcfiles.personality.</tt><tt class="descname">PChannel</tt><big>(</big><em>dimmer</em>, <em>atype=None</em>, <em>home=0</em>, <em>dispformat=0</em>, <em>attrs=None</em>, <em>type=None</em>, <em>independent=False</em>, <em>LTP=False</em>, <em>sixteenbit=False</em>, <em>flipped=False</em><big>)</big><a class="headerlink" href="#etcfiles.personality.PChannel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">class </em><tt class="descclassname">etcfiles.personality.</tt><tt class="descname">PChannel</tt><big>(</big><em>dimmer</em>, <em>atype=0</em>, <em>home=0</em>, <em>dispformat=0</em>, <em>attrs=None</em>, <em>type=None</em>, <em>independent=False</em>, <em>LTP=False</em>, <em>sixteenbit=False</em>, <em>flipped=False</em><big>)</big><a class="headerlink" href="#etcfiles.personality.PChannel" title="Permalink to this definition">¶</a></dt>
+<dd><p>When constructing a new <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a>, the only required argument is the channel
+(<a class="reference internal" href="#etcfiles.personality.PChannel.dimmer" title="etcfiles.personality.PChannel.dimmer"><tt class="xref py py-obj docutils literal"><span class="pre">dimmer</span></tt></a>) where this <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> will be placed. This must be specified when the object
+is created, as it cannot be changed after instantiation.</p>
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.dimmer">
+<tt class="descname">dimmer</tt><a class="headerlink" href="#etcfiles.personality.PChannel.dimmer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This attribute provides read-only access to the channel this <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> resides at.</p>
+</dd></dl>
 
-<p>The <a class="reference internal" href="#module-etcfiles.personality" title="etcfiles.personality: Allows you to use ETC's Fixture Personality files."><tt class="xref py py-mod docutils literal"><span class="pre">etcfiles.personality</span></tt></a> module provides two module level constants to assist in
+<p>The type of a channel and other attributes do not need to be specified when the
+<a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> is created and they can be changed later. Additionally, most provide
+multiple ways of accessing/setting their values.</p>
+<p>While the channel type does not need to be specified at <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> creation time, it is
+reccomended. This can be done by either specifying the <a class="reference internal" href="#etcfiles.personality.PChannel.atype" title="etcfiles.personality.PChannel.atype"><tt class="xref py py-attr docutils literal"><span class="pre">atype</span></tt></a> parameter or the
+<a class="reference internal" href="#etcfiles.personality.PChannel.type" title="etcfiles.personality.PChannel.type"><tt class="xref py py-attr docutils literal"><span class="pre">type</span></tt></a> parameter. After creation, the type can be changed via those attributes in the
+same way:</p>
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.type">
+<tt class="descname">type</tt><a class="headerlink" href="#etcfiles.personality.PChannel.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This must be a string from <a class="reference internal" href="#etcfiles.personality._attribute_types" title="etcfiles.personality._attribute_types"><tt class="xref py py-data docutils literal"><span class="pre">_attribute_types</span></tt></a>. It provides a more readable way of
+accessing the type of a <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.atype">
+<tt class="descname">atype</tt><a class="headerlink" href="#etcfiles.personality.PChannel.atype" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be an integer in the range 0-64.</p>
+</dd></dl>
+
+<p>These fields have only this one way of setting them:</p>
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.home">
+<tt class="descname">home</tt><a class="headerlink" href="#etcfiles.personality.PChannel.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be an integer in the range 0-255.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.dispformat">
+<tt class="descname">dispformat</tt><a class="headerlink" href="#etcfiles.personality.PChannel.dispformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be an integer that maps to one of the values in <a class="reference internal" href="#etcfiles.personality._display_types" title="etcfiles.personality._display_types"><tt class="xref py py-data docutils literal"><span class="pre">_display_types</span></tt></a>.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The ETC console I work with does not use these fields, but they exist in ETC&#8217;s
+Personality Editor, so they are supported here.</p>
+</div>
+<p>The channel attributes are stored as one byte in ETC&#8217;s format, so they provide a way to
+access that representation. They can also be accessed as invididual attributes.</p>
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.attrs">
+<tt class="descname">attrs</tt><a class="headerlink" href="#etcfiles.personality.PChannel.attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer representation of the channel attributes byte. If this is provided at creation
+time, it overrides any attributes that may have been set individually.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="etcfiles.personality.PChannel.niceattrs">
+<tt class="descname">niceattrs</tt><big>(</big><big>)</big><a class="headerlink" href="#etcfiles.personality.PChannel.niceattrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a nice human-readable string representation of the <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a>&#8216;s channel
+attributes, mainly for use in display.</p>
+</dd></dl>
+
+<p>Channel attributes can also be accessed and set individually, in which case they should only
+be set to boolean values. If unspecified, they default to <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a>.</p>
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.independent">
+<tt class="descname">independent</tt><a class="headerlink" href="#etcfiles.personality.PChannel.independent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls whether the channel is affected by the <em class="xref std std-term">Grandmaster</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.LTP">
+<tt class="descname">LTP</tt><a class="headerlink" href="#etcfiles.personality.PChannel.LTP" title="Permalink to this definition">¶</a></dt>
+<dd><p>If set, the channel will not reset to zero (or its <a class="reference internal" href="#etcfiles.personality.PChannel.home" title="etcfiles.personality.PChannel.home"><tt class="xref py py-attr docutils literal"><span class="pre">home</span></tt></a>?) automatically.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.flipped">
+<tt class="descname">flipped</tt><a class="headerlink" href="#etcfiles.personality.PChannel.flipped" title="Permalink to this definition">¶</a></dt>
+<dd><p>If set, the channel output will be the opposite of the value you set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="etcfiles.personality.PChannel.sixteenbit">
+<tt class="descname">sixteenbit</tt><a class="headerlink" href="#etcfiles.personality.PChannel.sixteenbit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses two channels to represent a larger value, giving finer-grained control.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">I don&#8217;t fully understand how this is represented, so while it should read fine,
+attempts to set it may cause unexpected results.</p>
+</div>
+<p>Neither <a class="reference internal" href="#etcfiles.personality.Personality" title="etcfiles.personality.Personality"><tt class="xref py py-class docutils literal"><span class="pre">Personality</span></tt></a> nor <a class="reference internal" href="#etcfiles.personality.PChannel" title="etcfiles.personality.PChannel"><tt class="xref py py-class docutils literal"><span class="pre">PChannel</span></tt></a> will automatically manage 16 Bit channels
+for you, so if you wish to add one you must do so yourself. A 16 Bit channel is internally
+represented (by ETC) as two channels. It is unknown how much the settings of the second
+channel matter, but if you wish to use a 16 Bit channel, you must create it manually. It is
+reccomended to use the same settings as the first channel, except without the 16 Bit
+attribute set, and with the dimmer set one up, of course.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The <a class="reference internal" href="#module-etcfiles.personality" title="etcfiles.personality: Allows you to use ETC's Fixture Personality files."><tt class="xref py py-mod docutils literal"><span class="pre">personality</span></tt></a> module provides two module level constants to assist in
 generating nicer representations of the data stored in a personality. They are mainly used
 internally, but are documented here anyway. They are each lists, since they only need to map
 a contiguous set of integers starting at 0, for which list indices work fine.</p>
@@ -284,14 +381,14 @@ dictionary expansion of the fields specified in <a class="reference internal" hr
 <em class="property">class </em><tt class="descclassname">etcfiles.</tt><tt class="descname">Writeable</tt><a class="headerlink" href="#etcfiles.Writeable" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class functions very much like <a class="reference internal" href="#etcfiles.Readable" title="etcfiles.Readable"><tt class="xref py py-class docutils literal"><span class="pre">Readable</span></tt></a>, with a few notable differences:</p>
 <ol class="arabic simple">
-<li><a class="reference internal" href="#etcfiles.Readable._struct_fields" title="etcfiles.Readable._struct_fields"><tt class="xref py py-attr docutils literal"><span class="pre">Readable._struct_fields</span></tt></a> is not required to write an object. It is still useful,
+<li><a class="reference internal" href="#etcfiles.Readable._struct_fields" title="etcfiles.Readable._struct_fields"><tt class="xref py py-attr docutils literal"><span class="pre">_struct_fields</span></tt></a> is not required to write an object. It is still useful,
 however, to easily write null fields, and if you want
 <a class="reference internal" href="#recursive-struct-packing"><em>recursive object packing</em></a> you must define it.</li>
-<li><a class="reference internal" href="#etcfiles.Readable._struct_structs" title="etcfiles.Readable._struct_structs"><tt class="xref py py-attr docutils literal"><span class="pre">Readable._struct_structs</span></tt></a> is unnecessary even if you are using
+<li><a class="reference internal" href="#etcfiles.Readable._struct_structs" title="etcfiles.Readable._struct_structs"><tt class="xref py py-attr docutils literal"><span class="pre">_struct_structs</span></tt></a> is unnecessary even if you are using
 <a class="reference internal" href="#recursive-struct-packing"><em>recursive object packing</em></a>, because <a class="reference internal" href="#etcfiles.Writeable.to_string" title="etcfiles.Writeable.to_string"><tt class="xref py py-meth docutils literal"><span class="pre">to_string()</span></tt></a>
 just calls object&#8217;s <a class="reference internal" href="#etcfiles.Writeable.to_string" title="etcfiles.Writeable.to_string"><tt class="xref py py-meth docutils literal"><span class="pre">to_string()</span></tt></a> methods. This means that subobjects must still be
 <a class="reference internal" href="#etcfiles.Writeable" title="etcfiles.Writeable"><tt class="xref py py-class docutils literal"><span class="pre">Writeable</span></tt></a>.</li>
-<li><a class="reference internal" href="#etcfiles.Readable.from_struct" title="etcfiles.Readable.from_struct"><tt class="xref py py-meth docutils literal"><span class="pre">Readable.from_struct()</span></tt></a> is, of course, never necessary, but a new method,
+<li><a class="reference internal" href="#etcfiles.Readable.from_struct" title="etcfiles.Readable.from_struct"><tt class="xref py py-meth docutils literal"><span class="pre">from_struct()</span></tt></a> is, of course, never necessary, but a new method,
 <a class="reference internal" href="#etcfiles.Writeable.to_struct" title="etcfiles.Writeable.to_struct"><tt class="xref py py-meth docutils literal"><span class="pre">to_struct()</span></tt></a>, must be defined.</li>
 </ol>
 <p>Like <a class="reference internal" href="#etcfiles.Readable" title="etcfiles.Readable"><tt class="xref py py-class docutils literal"><span class="pre">Readable</span></tt></a>, <a class="reference internal" href="#etcfiles.Writeable" title="etcfiles.Writeable"><tt class="xref py py-class docutils literal"><span class="pre">Writeable</span></tt></a> defines two methods for binary IO, <a class="reference internal" href="#etcfiles.Writeable.to_string" title="etcfiles.Writeable.to_string"><tt class="xref py py-meth docutils literal"><span class="pre">to_string()</span></tt></a>
@@ -302,7 +399,8 @@ and <a class="reference internal" href="#etcfiles.Writeable.write" title="etcfil
 <dd><p>Returns a <a class="reference external" href="http://docs.python.org/library/struct.html#struct" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">struct</span></tt></a> packed bytestring of the object.</p>
 <p>This method will call the object&#8217;s <a class="reference internal" href="#etcfiles.Writeable.to_struct" title="etcfiles.Writeable.to_struct"><tt class="xref py py-meth docutils literal"><span class="pre">to_struct()</span></tt></a> method to get a list of field data.
 It expects a sequence of data suitable for packing into a <a class="reference external" href="http://docs.python.org/library/struct.html#struct" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">struct</span></tt></a>, although if
-specified in <a class="reference internal" href="#etcfiles.Readable._struct_fields" title="etcfiles.Readable._struct_fields"><tt class="xref py py-attr docutils literal"><span class="pre">Readable._struct_fields</span></tt></a> certain fields will be <a class="reference internal" href="#recursive-struct-packing"><em>recursively packed</em></a>.</p>
+specified in <a class="reference internal" href="#etcfiles.Readable._struct_fields" title="etcfiles.Readable._struct_fields"><tt class="xref py py-attr docutils literal"><span class="pre">_struct_fields</span></tt></a> certain fields will be
+<a class="reference internal" href="#recursive-struct-packing"><em>recursively packed</em></a>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -320,7 +418,7 @@ loading the object from a file, that remembered filename will be used.</p>
 <tt class="descname">to_struct</tt><big>(</big><big>)</big><a class="headerlink" href="#etcfiles.Writeable.to_struct" title="Permalink to this definition">¶</a></dt>
 <dd><p>You must provide this method to make a class writeable. It is given no arguments and should
 return a sequence of fields to be packed. Any non integer/string fields (depending on your
-format string) must correspond with <tt class="xref py py-obj docutils literal"><span class="pre">*</span></tt>-marked fields in <a class="reference internal" href="#etcfiles.Readable._struct_fields" title="etcfiles.Readable._struct_fields"><tt class="xref py py-attr docutils literal"><span class="pre">Readable._struct_fields</span></tt></a>.</p>
+format string) must correspond with <tt class="xref py py-obj docutils literal"><span class="pre">*</span></tt>-marked fields in <a class="reference internal" href="#etcfiles.Readable._struct_fields" title="etcfiles.Readable._struct_fields"><tt class="xref py py-attr docutils literal"><span class="pre">_struct_fields</span></tt></a>.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">This method is NOT defined by <a class="reference internal" href="#etcfiles.Writeable" title="etcfiles.Writeable"><tt class="xref py py-class docutils literal"><span class="pre">Writeable</span></tt></a>!</p>
@@ -385,7 +483,7 @@ format string) must correspond with <tt class="xref py py-obj docutils literal">
         <li class="right" >
           <a href="entities.html" title="&lt;no title&gt;"
              >previous</a> |</li>
-        <li><a href="index.html">EOL AutoKey v0.5 Documentation</a> &raquo;</li> 
+        <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; EOL AutoKey v0.5 Documentation</title>
+    <title>AutoKey Functionality - Sending Data to EOL &mdash; EOL AutoKey v0.5</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/eol311.ico"/>
-    <link rel="top" title="EOL AutoKey v0.5 Documentation" href="index.html" />
+    <link rel="top" title="EOL AutoKey v0.5" href="index.html" />
     <link rel="next" title="&lt;no title&gt;" href="entities.html" />
-    <link rel="prev" title="Documentation for EOL AutoKey" href="index.html" /> 
+    <link rel="prev" title="EOL AutoKey" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -42,9 +42,9 @@
           <a href="entities.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Documentation for EOL AutoKey"
+          <a href="index.html" title="EOL AutoKey"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">EOL AutoKey v0.5 Documentation</a> &raquo;</li> 
+        <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,16 +53,294 @@
         <div class="bodywrapper">
           <div class="body">
             
-  
+  <div class="section" id="autokey-functionality-sending-data-to-eol">
+<h1>AutoKey Functionality - Sending Data to EOL<a class="headerlink" href="#autokey-functionality-sending-data-to-eol" title="Permalink to this headline">¶</a></h1>
+<p>EOL AutoKey&#8217;s method of putting its data into a format ETC consoles can understand relies on
+sending virtual keystrokes to Expression Off-Line. This is accomplished using the
+<a class="reference external" href="http://pywinauto.googlecode.com/hg/pywinauto/docs/code/pywinauto.controls.HwndWrapper.html#pywinauto.controls.HwndWrapper.HwndWrapper.TypeKeys" title="(in pywinauto v0.4.1)"><tt class="xref py py-meth docutils literal"><span class="pre">SendKeys</span></tt></a> functionality of
+<a class="reference external" href="http://pywinauto.googlecode.com/hg/pywinauto/docs/code/pywinauto.application.html#pywinauto.application" title="(in pywinauto v0.4.1)"><tt class="xref py py-mod docutils literal"><span class="pre">pywinauto.application</span></tt></a>. Because of this, pywinauto is required to write data.</p>
+<div class="section" id="module-sender">
+<span id="the-sender-module"></span><h2>The <a class="reference internal" href="#module-sender" title="sender: Uses pywinauto to send virtual keystrokes to EOL. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">sender</span></tt></a> Module<a class="headerlink" href="#module-sender" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-sender" title="sender: Uses pywinauto to send virtual keystrokes to EOL. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">sender</span></tt></a> module provides the functionality that actually sends keys to Expression
+Off-Line. <tt class="xref py py-mod docutils literal"><span class="pre">pywinauto</span></tt> is initialized once, when the module is first loaded, at which
+point it will attempt to find an Expression Off-Line window. If it fails then,
+<a class="reference external" href="http://pywinauto.googlecode.com/hg/pywinauto/docs/code/pywinauto.findwindows.html#pywinauto.findwindows" title="(in pywinauto v0.4.1)"><tt class="xref py py-mod docutils literal"><span class="pre">pywinauto.findwindows</span></tt></a> will throw a <tt class="xref py py-exc docutils literal"><span class="pre">WindowNotFoundError</span></tt>, and the module will fail
+to load. Once the module has been loaded, there is no way to reinitialize it without reloading
+it completely.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This module is not written very well at the moment, so its implementation is likely
+to change and improve.</p>
+</div>
+<p>The <a class="reference internal" href="#module-sender" title="sender: Uses pywinauto to send virtual keystrokes to EOL. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">sender</span></tt></a> module provides one function, which is used internally by most of the rest
+of the software, especially <tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt>.</p>
+<dl class="function">
+<dt id="sender.send">
+<tt class="descclassname">sender.</tt><tt class="descname">send</tt><big>(</big><em>keys</em>, <em>speed=0.01</em>, <em>noalert=False</em><big>)</big><a class="headerlink" href="#sender.send" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>keys</strong> &#8211; a <a class="reference external" href="http://pywinauto.googlecode.com/hg/pywinauto/docs/code/pywinauto.controls.HwndWrapper.html#pywinauto.controls.HwndWrapper.HwndWrapper.TypeKeys" title="(in pywinauto v0.4.1)"><tt class="xref py py-meth docutils literal"><span class="pre">SendKeys</span></tt></a>    compatible keystring to send to <em class="xref std std-term">EOL</em>.</li>
+<li><strong>speed</strong> &#8211; How long to wait between virtual keypresses. 0.01 seconds usually works.    See <a class="reference external" href="http://pywinauto.googlecode.com/hg/pywinauto/docs/code/pywinauto.controls.HwndWrapper.html#pywinauto.controls.HwndWrapper.HwndWrapper.TypeKeys" title="(in pywinauto v0.4.1)"><tt class="xref py py-meth docutils literal"><span class="pre">SendKeys</span></tt></a> for more    information.</li>
+<li><strong>noalert</strong> &#8211; if <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, disables the dialog boxes before and after sending keystrokes.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#sender.send" title="sender.send"><tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt></a> maximizes the back <em class="xref std std-term">EOL</em> window and gives focus to <em class="xref std std-term">EOL</em> before
+sending any keystrokes. It is important that it retains focus until all keystrokes have
+been sent, or unexpected results may occur. As long as <tt class="xref py py-obj docutils literal"><span class="pre">noalert</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a>, the first
+time this function is called it will pop up a dialog box saying so.</p>
+<p>Once all keystrokes have been sent, the back <em class="xref std std-term">EOL</em> window will be restored, and
+if <tt class="xref py py-obj docutils literal"><span class="pre">noalert</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a> and it is the first time this function has been called, a dialog
+box will pop up to alert the user that it is done.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-keys">
+<span id="the-keys-module"></span><h2>The <a class="reference internal" href="#module-keys" title="keys: Helps in converting various objects to SendKeys-compatible keystroke sequences. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">keys</span></tt></a> Module<a class="headerlink" href="#module-keys" title="Permalink to this headline">¶</a></h2>
+<p>Technically the <a class="reference internal" href="#module-keys" title="keys: Helps in converting various objects to SendKeys-compatible keystroke sequences. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">keys</span></tt></a> module is platform-independent, but it is not terribly useful except
+to provide keystroke sequences for <a class="reference internal" href="#sender.send" title="sender.send"><tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt></a>, which is not, so it is marked as
+Windows-only.</p>
+<p>The <a class="reference internal" href="#module-keys" title="keys: Helps in converting various objects to SendKeys-compatible keystroke sequences. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">keys</span></tt></a> module&#8217;s central functionality is <a class="reference internal" href="#keys.names" title="keys.names"><tt class="xref py py-data docutils literal"><span class="pre">keys.names</span></tt></a>, its <a class="reference internal" href="#keys.KeyMap" title="keys.KeyMap"><tt class="xref py py-class docutils literal"><span class="pre">KeyMap</span></tt></a>, but
+it also provides some <a class="reference internal" href="#higher-level-functionality"><em>Higher Level Functionality</em></a> that uses that <a class="reference internal" href="#keys.KeyMap" title="keys.KeyMap"><tt class="xref py py-class docutils literal"><span class="pre">KeyMap</span></tt></a>.</p>
+<div class="section" id="module-internals">
+<h3>Module Internals<a class="headerlink" href="#module-internals" title="Permalink to this headline">¶</a></h3>
+<p>It is unlikely that you would need to create a new <a class="reference internal" href="#keys.KeyMap" title="keys.KeyMap"><tt class="xref py py-class docutils literal"><span class="pre">KeyMap</span></tt></a>, but it is still documented
+here because it provides a small API that may be useful occasionally.</p>
+<dl class="class">
+<dt id="keys.KeyMap">
+<em class="property">class </em><tt class="descclassname">keys.</tt><tt class="descname">KeyMap</tt><big>(</big><em>dict</em><big>)</big><a class="headerlink" href="#keys.KeyMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#keys.KeyMap" title="keys.KeyMap"><tt class="xref py py-class docutils literal"><span class="pre">KeyMap</span></tt></a> is a dictionary mapping names to
+<a class="reference external" href="http://pywinauto.googlecode.com/hg/pywinauto/docs/code/pywinauto.controls.HwndWrapper.html#pywinauto.controls.HwndWrapper.HwndWrapper.TypeKeys" title="(in pywinauto v0.4.1)"><tt class="xref py py-meth docutils literal"><span class="pre">SendKeys</span></tt></a>-compatible keystrings
+or key sequences. It may map multiple names to the same key.</p>
+<p>In addition to the dictionary interface provided, it defines three methods which should be
+used to add additional mappings:</p>
+<dl class="method">
+<dt id="keys.KeyMap.addkeys">
+<tt class="descname">addkeys</tt><big>(</big><em>d</em><big>)</big><a class="headerlink" href="#keys.KeyMap.addkeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>This accepts a single argument, which should be a dictionary of the form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;&lt;key(s)&gt;&#39;</span><span class="p">:</span> <span class="s">&#39;&lt;name&gt;&#39;</span><span class="p">,</span>
+    <span class="s">&#39;&lt;key(s)&gt;&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;&lt;name1&gt;&#39;</span><span class="p">,</span><span class="s">&#39;&lt;name2&gt;&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It will iterate over this dictionary, adding maps for each key/key sequence
+from the name or names specified. A real example of this can be seen in the
+<a class="reference internal" href="#default-names-content"><em>Default Contents of keys.names</em></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="keys.KeyMap.addkey">
+<tt class="descname">addkey</tt><big>(</big><em>key</em>, <em>*names</em><big>)</big><a class="headerlink" href="#keys.KeyMap.addkey" title="Permalink to this definition">¶</a></dt>
+<dd><p>This maps one or more names to a single key.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="keys.KeyMap.addseq">
+<tt class="descname">addseq</tt><big>(</big><em>seq</em>, <em>*names</em><big>)</big><a class="headerlink" href="#keys.KeyMap.addseq" title="Permalink to this definition">¶</a></dt>
+<dd><p>This maps one or more names to a specially formatted sequence. Use this method
+when you want to map a key sequence that uses existing keys or sequences.</p>
+<p>To include existing keys/sequences in your new sequence, simply enclose their
+names in <tt class="xref py py-obj docutils literal"><span class="pre">&lt;</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">&gt;</span></tt>.</p>
+<p>Examples from the <a class="reference internal" href="#module-keys" title="keys: Helps in converting various objects to SendKeys-compatible keystroke sequences. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">keys</span></tt></a> module:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Maps several names to pressing &quot;enter&quot; twice.</span>
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;enter&gt;&lt;enter&gt;&quot;</span><span class="p">,</span><span class="s">&quot;confirm&quot;</span><span class="p">,</span><span class="s">&quot;confirmed&quot;</span><span class="p">,</span><span class="s">&quot;dblenter&quot;</span><span class="p">,</span><span class="s">&quot;enterenter&quot;</span><span class="p">,</span><span class="s">&quot;doubleenter&quot;</span><span class="p">)</span>
+
+<span class="c"># Maps &quot;forcestage&quot; to a sequence that should put the console in stage mode no matter what.</span>
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;stage&gt;&lt;macroenter&gt;&lt;clear&gt;&lt;stage&gt;&quot;</span><span class="p">,</span><span class="s">&quot;forcestage&quot;</span><span class="p">)</span>
+
+<span class="c"># Maps &quot;save&quot; to the sequence needed to execute the &quot;Write All to Disk&quot; action.</span>
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;setup&gt;3&lt;enter&gt;1&lt;enter&gt;&lt;enter&gt;&lt;stage&gt;&quot;</span><span class="p">,</span><span class="s">&quot;save&quot;</span><span class="p">)</span>
+
+<span class="c"># Maps &quot;reset&quot; to a sequence that will execute a system reset.</span>
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;setup&gt;4&lt;enter&gt;&lt;s1&gt;&lt;enter&gt;&quot;</span><span class="p">,</span><span class="s">&quot;reset&quot;</span><span class="p">)</span>
+
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;blind&gt;&lt;s6&gt;&quot;</span><span class="p">,</span><span class="s">&quot;deletecue&quot;</span><span class="p">)</span>
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;blind&gt;&lt;sub&gt;&lt;s6&gt;&quot;</span><span class="p">,</span><span class="s">&quot;deletesub&quot;</span><span class="p">,</span><span class="s">&quot;deletesubmaster&quot;</span><span class="p">)</span>
+
+<span class="c"># Maps &quot;pause&quot; to twenty presses of the space key, which is ignored by EOL.</span>
+<span class="n">names</span><span class="o">.</span><span class="n">addseq</span><span class="p">(</span><span class="s">&quot;&lt;space&gt;&quot;</span><span class="o">*</span><span class="mi">20</span><span class="p">,</span><span class="s">&quot;pause&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="keys.names">
+<tt class="descclassname">keys.</tt><tt class="descname">names</tt><a class="headerlink" href="#keys.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>This <a class="reference internal" href="#keys.KeyMap" title="keys.KeyMap"><tt class="xref py py-class docutils literal"><span class="pre">KeyMap</span></tt></a> is the central dictionary mapping names to keys. It is used by the
+functions in this module to convert human-readable data to key sequences, and it also
+supports adding additional custom key sequences.</p>
+<p>It is initialized with one or more names for every keyboard shortcut EOL supports, as well
+as the above <a class="reference internal" href="#keys.KeyMap.addseq" title="keys.KeyMap.addseq"><tt class="xref py py-meth docutils literal"><span class="pre">addseq()</span></tt></a> examples. [For more information, see
+<a class="reference internal" href="#default-names-content"><em>Default Contents of keys.names</em></a>]</p>
+<p>Because of the way the higher-level functions in the <a class="reference internal" href="#module-keys" title="keys: Helps in converting various objects to SendKeys-compatible keystroke sequences. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">keys</span></tt></a> module work, all of the
+names in <a class="reference internal" href="#keys.names" title="keys.names"><tt class="xref py py-data docutils literal"><span class="pre">keys.names</span></tt></a> should be lowercase and without spaces. This is explained more
+in the function descriptions for <a class="reference internal" href="#keys.get" title="keys.get"><tt class="xref py py-func docutils literal"><span class="pre">get()</span></tt></a> and <a class="reference internal" href="#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">parse_str()</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="higher-level-functionality">
+<span id="id1"></span><h3>Higher Level Functionality<a class="headerlink" href="#higher-level-functionality" title="Permalink to this headline">¶</a></h3>
+<p>These functions provide higher-level access to <a class="reference internal" href="#keys.names" title="keys.names"><tt class="xref py py-data docutils literal"><span class="pre">keys.names</span></tt></a>.</p>
+<dl class="function">
+<dt id="keys.get">
+<tt class="descclassname">keys.</tt><tt class="descname">get</tt><big>(</big><em>name</em>, <em>strict=False</em><big>)</big><a class="headerlink" href="#keys.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up a name in <a class="reference internal" href="#keys.names" title="keys.names"><tt class="xref py py-data docutils literal"><span class="pre">names</span></tt></a>.</p>
+<p>It will lowercase its argument before performing the lookup, and if it finds nothing it
+simply returns its argument as-is. As long as <tt class="xref py py-obj docutils literal"><span class="pre">strict</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a>, it will also remove
+spaces from its argument. This allows easy lookups of button presses with multi-word names.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="keys.list_to_str">
+<tt class="descclassname">keys.</tt><tt class="descname">list_to_str</tt><big>(</big><em>keys</em><big>)</big><a class="headerlink" href="#keys.list_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs <a class="reference internal" href="#keys.get" title="keys.get"><tt class="xref py py-func docutils literal"><span class="pre">get()</span></tt></a> lookups on a list and <a class="reference external" href="http://docs.python.org/library/stdtypes.html#str.join" title="(in Python v2.7)"><tt class="xref py py-meth docutils literal"><span class="pre">joins</span></tt></a> the result together
+with spaces.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="keys.parse_str">
+<tt class="descclassname">keys.</tt><tt class="descname">parse_str</tt><big>(</big><em>keys</em><big>)</big><a class="headerlink" href="#keys.parse_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accepts a single string argument. This should be a nice human-readable sequence of button
+presses, which will be converted into a string of key strokes suitable for sending to
+<em class="xref std std-term">EOL</em>.</p>
+<p>It is extremely flexible, and can take almost anything you can throw at it. It will accept
+any capitalization and spacing, and will even catch multi-word button names. However, if
+a multi-word button name&#8217;s first word is itself a button name, it will treat it as that
+button.</p>
+<p><a class="reference internal" href="#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">parse_str()</span></tt></a> even allows you to add <tt class="xref py py-obj docutils literal"><span class="pre">&lt;</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">&gt;</span></tt> around button names, in which case
+they will simply be ignored. However, as of now, there is no way to include comments in
+a keystring.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_str</span><span class="p">(</span><span class="s">&#39;Cue 7 Go&#39;</span><span class="p">)</span>
+<span class="go">&#39;q 7 ^g&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_str</span><span class="p">(</span><span class="s">&#39;Channel 1 at 50 &#39;</span><span class="o">+</span>
+<span class="go">              &#39;Channel 2 at 75 &#39;+</span>
+<span class="go">              &#39;Channel 5 at 27 &#39;+</span>
+<span class="go">              &#39;Record cue 7 \n Cue 7 &lt;GO&gt;&#39;)</span>
+<span class="go">&#39;c 1 a 50 c 2 a 75 c 5 a 27 r q 7 q 7 ^g&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_str</span><span class="p">(</span><span class="s">&#39;AB Go &lt;stage&gt; AB Clear&#39;</span><span class="p">)</span>
+<span class="go">&#39;^g +{F1} ^a&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="default-contents-of-keys-names">
+<span id="default-names-content"></span><h3>Default Contents of <a class="reference internal" href="#keys.names" title="keys.names"><tt class="xref py py-data docutils literal"><span class="pre">keys.names</span></tt></a><a class="headerlink" href="#default-contents-of-keys-names" title="Permalink to this headline">¶</a></h3>
+<p>The following code adds all of the keyboard shortcuts Expression Off-Line supports.
+Most keys have multiple names, for convenience, but all at least have the name of the physical
+button you would press to get the same functionality.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">names</span><span class="o">.</span><span class="n">addkeys</span><span class="p">({</span>
+    <span class="s">&#39;^d&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;abback&#39;</span><span class="p">,</span><span class="s">&#39;back&#39;</span><span class="p">),</span>
+    <span class="s">&#39;^a&#39;</span><span class="p">:</span> <span class="s">&#39;abclear&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^g&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;abgo&#39;</span><span class="p">,</span><span class="s">&#39;go&#39;</span><span class="p">),</span>
+    <span class="s">&#39;^f&#39;</span><span class="p">:</span> <span class="s">&#39;abhold&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^s&#39;</span><span class="p">:</span> <span class="s">&#39;abrate&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{F3}&#39;</span><span class="p">:</span> <span class="s">&#39;about&#39;</span><span class="p">,</span>
+    <span class="s">&#39;n&#39;</span><span class="p">:</span> <span class="s">&#39;and&#39;</span><span class="p">,</span>
+    <span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="s">&#39;at&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^k&#39;</span><span class="p">:</span> <span class="s">&#39;blackout&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+{F2}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;blind&#39;</span><span class="p">,</span><span class="s">&#39;blindmode&#39;</span><span class="p">),</span>
+    <span class="s">&#39;^c&#39;</span><span class="p">:</span> <span class="s">&#39;cdback&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^z&#39;</span><span class="p">:</span> <span class="s">&#39;cdclear&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^b&#39;</span><span class="p">:</span> <span class="s">&#39;cdgo&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^v&#39;</span><span class="p">:</span> <span class="s">&#39;cdhold&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^x&#39;</span><span class="p">:</span> <span class="s">&#39;cdrate&#39;</span><span class="p">,</span>
+    <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;channel&#39;</span><span class="p">,</span><span class="s">&#39;chan&#39;</span><span class="p">,</span><span class="s">&#39;ch&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{DELETE}&#39;</span><span class="p">:</span> <span class="s">&#39;clear&#39;</span><span class="p">,</span>
+    <span class="s">&#39;q&#39;</span><span class="p">:</span> <span class="s">&#39;cue&#39;</span><span class="p">,</span>
+    <span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;dimmer&#39;</span><span class="p">,</span><span class="s">&#39;dim&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{DOWN}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;down&#39;</span><span class="p">,</span><span class="s">&#39;downarrow&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{ENTER}&#39;</span><span class="p">:</span> <span class="s">&#39;enter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;x&#39;</span><span class="p">:</span> <span class="s">&#39;except&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+{F8}&#39;</span><span class="p">:</span> <span class="s">&#39;expand&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+{F3}&#39;</span><span class="p">:</span> <span class="s">&#39;fader&#39;</span><span class="p">,</span>
+    <span class="s">&#39;!&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;focuspoint&#39;</span><span class="p">,</span><span class="s">&#39;fp&#39;</span><span class="p">),</span>
+    <span class="s">&#39;f&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;full&#39;</span><span class="p">,</span><span class="s">&#39;fl&#39;</span><span class="p">),</span>
+    <span class="s">&#39;g&#39;</span><span class="p">:</span> <span class="s">&#39;group&#39;</span><span class="p">,</span>
+    <span class="s">&#39;?&#39;</span><span class="p">:</span> <span class="s">&#39;help&#39;</span><span class="p">,</span>
+    <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="s">&#39;label&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{F4}&#39;</span><span class="p">:</span> <span class="s">&#39;learn&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{LEFT}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;left&#39;</span><span class="p">,</span><span class="s">&#39;leftarrow&#39;</span><span class="p">),</span>
+    <span class="s">&#39;v&#39;</span><span class="p">:</span> <span class="s">&#39;level&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{PGDN}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;levelwheeldown&#39;</span><span class="p">,</span><span class="s">&#39;leveldown&#39;</span><span class="p">,</span><span class="s">&#39;wheeldown&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{PGUP}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;levelwheelup&#39;</span><span class="p">,</span><span class="s">&#39;levelup&#39;</span><span class="p">,</span><span class="s">&#39;wheelup&#39;</span><span class="p">),</span>
+    <span class="s">&#39;k&#39;</span><span class="p">:</span> <span class="s">&#39;link&#39;</span><span class="p">,</span>
+    <span class="s">&#39;#&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;loadsub&#39;</span><span class="p">,</span><span class="s">&#39;loadsubmaster&#39;</span><span class="p">),</span>
+    <span class="s">&#39;m&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;macro*&#39;</span><span class="p">,</span><span class="s">&#39;m*&#39;</span><span class="p">),</span>
+    <span class="s">&#39;^e&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;macroenter&#39;</span><span class="p">,</span><span class="s">&#39;menter&#39;</span><span class="p">),</span>
+    <span class="s">&#39;^w&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;macrowait&#39;</span><span class="p">,</span><span class="s">&#39;mwait&#39;</span><span class="p">),</span>
+    <span class="s">&#39;o&#39;</span><span class="p">:</span> <span class="s">&#39;only&#39;</span><span class="p">,</span>
+    <span class="s">&#39;j&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span><span class="s">&#39;subpage&#39;</span><span class="p">,</span><span class="s">&#39;submasterpage&#39;</span><span class="p">),</span>
+    <span class="s">&#39;+{F6}&#39;</span><span class="p">:</span> <span class="s">&#39;park&#39;</span><span class="p">,</span>
+    <span class="s">&#39;p&#39;</span><span class="p">:</span> <span class="s">&#39;part&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+{F5}&#39;</span><span class="p">:</span> <span class="s">&#39;patch&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{END}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;ratedown&#39;</span><span class="p">,</span><span class="s">&#39;ratewheeldown&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{HOME}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;rateup&#39;</span><span class="p">,</span><span class="s">&#39;ratewheelup&#39;</span><span class="p">),</span>
+    <span class="s">&#39;r&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;record&#39;</span><span class="p">,</span><span class="s">&#39;rec&#39;</span><span class="p">),</span>
+    <span class="s">&#39;l&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;release&#39;</span><span class="p">,</span><span class="s">&#39;rel&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{RIGHT}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;right&#39;</span><span class="p">,</span><span class="s">&#39;rightarrow&#39;</span><span class="p">),</span>
+    <span class="s">&#39;+{F7}&#39;</span><span class="p">:</span> <span class="s">&#39;setup&#39;</span><span class="p">,</span>
+    <span class="s">&#39;u&#39;</span><span class="p">:</span> <span class="s">&#39;solobump&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+{F1}&#39;</span><span class="p">:</span> <span class="s">&#39;stage&#39;</span><span class="p">,</span>
+    <span class="s">&#39;e&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;submode&#39;</span><span class="p">,</span><span class="s">&#39;submastermode&#39;</span><span class="p">),</span>
+    <span class="s">&#39;s&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;sub&#39;</span><span class="p">,</span><span class="s">&#39;submaster&#39;</span><span class="p">),</span>
+    <span class="s">&#39;{F2}&#39;</span><span class="p">:</span> <span class="s">&#39;swap&#39;</span><span class="p">,</span>
+    <span class="s">&#39;t&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;thru&#39;</span><span class="p">,</span><span class="s">&#39;through&#39;</span><span class="p">),</span>
+    <span class="s">&#39;i&#39;</span><span class="p">:</span> <span class="s">&#39;time&#39;</span><span class="p">,</span>
+    <span class="s">&#39;^&#39;</span><span class="p">:</span> <span class="s">&#39;track&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+{F4}&#39;</span><span class="p">:</span> <span class="s">&#39;tracksheet&#39;</span><span class="p">,</span>
+    <span class="s">&#39;*&#39;</span><span class="p">:</span> <span class="s">&#39;type&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{UP}&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;up&#39;</span><span class="p">,</span><span class="s">&#39;uparrow&#39;</span><span class="p">),</span>
+    <span class="s">&#39;w&#39;</span><span class="p">:</span> <span class="s">&#39;wait&#39;</span><span class="p">,</span>
+    <span class="s">&#39;{SPACE}&#39;</span><span class="p">:</span><span class="s">&#39;space&#39;</span><span class="p">,</span>
+    <span class="s">&#39;+=&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span><span class="s">&#39;plus&#39;</span><span class="p">)</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>The <em class="xref std std-term">softkey</em>s were added in a slightly different way, and can be access via <tt class="xref py py-obj docutils literal"><span class="pre">&quot;softkey#&quot;</span></tt>,
+<tt class="xref py py-obj docutils literal"><span class="pre">&quot;soft#&quot;</span></tt>, or <tt class="xref py py-obj docutils literal"><span class="pre">&quot;s#&quot;</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">):</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">addkey</span><span class="p">(</span><span class="s">&#39;^{{F{i}}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">),</span><span class="s">&#39;soft{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                 <span class="s">&#39;softkey{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="s">&#39;s{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In addition to these, the examples for <a class="reference internal" href="#keys.KeyMap.addseq" title="keys.KeyMap.addseq"><tt class="xref py py-meth docutils literal"><span class="pre">addseq()</span></tt></a> are included.</p>
+</div>
+</div>
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">AutoKey Functionality - Sending Data to EOL</a><ul>
+<li><a class="reference internal" href="#module-sender">The <tt class="docutils literal"><span class="pre">sender</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-keys">The <tt class="docutils literal"><span class="pre">keys</span></tt> Module</a><ul>
+<li><a class="reference internal" href="#module-internals">Module Internals</a></li>
+<li><a class="reference internal" href="#higher-level-functionality">Higher Level Functionality</a></li>
+<li><a class="reference internal" href="#default-contents-of-keys-names">Default Contents of <tt class="docutils literal"><span class="pre">keys.names</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">Documentation for EOL AutoKey</a></p>
+                        title="previous chapter">EOL AutoKey</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="entities.html"
                         title="next chapter">&lt;no title&gt;</a></p>
@@ -101,9 +379,9 @@
           <a href="entities.html" title="&lt;no title&gt;"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Documentation for EOL AutoKey"
+          <a href="index.html" title="EOL AutoKey"
              >previous</a> |</li>
-        <li><a href="index.html">EOL AutoKey v0.5 Documentation</a> &raquo;</li> 
+        <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

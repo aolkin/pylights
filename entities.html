@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; EOL AutoKey v0.5</title>
+    <title>Entities – Object-Oriented Interface to Console Data &mdash; EOL AutoKey v0.5</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="_static/eol311.ico"/>
     <link rel="top" title="EOL AutoKey v0.5" href="index.html" />
     <link rel="next" title="Working with Console Files" href="etcfiles.html" />
-    <link rel="prev" title="AutoKey Functionality - Sending Data to EOL" href="autokey.html" /> 
+    <link rel="prev" title="AutoKey Functionality – Sending Data to EOL" href="autokey.html" /> 
   </head>
   <body>
     <div class="related">
@@ -42,7 +42,7 @@
           <a href="etcfiles.html" title="Working with Console Files"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="autokey.html" title="AutoKey Functionality - Sending Data to EOL"
+          <a href="autokey.html" title="AutoKey Functionality – Sending Data to EOL"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
@@ -53,16 +53,338 @@
         <div class="bodywrapper">
           <div class="body">
             
-  
+  <div class="section" id="entities-object-oriented-interface-to-console-data">
+<h1>Entities – Object-Oriented Interface to Console Data<a class="headerlink" href="#entities-object-oriented-interface-to-console-data" title="Permalink to this headline">¶</a></h1>
+<p>EOL AutoKey provides a framework for representing the entities used by a light board (cues, subs,
+etc) in the <a class="reference internal" href="#module-entities" title="entities: The base classes of the entities framework."><tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt></a> module, as well as several built-in entities in its submodules. In
+addition, it provides certain constants and classes for entity fields and field types in the
+<a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.</p>
+<div class="section" id="module-entities">
+<span id="the-entities-framework"></span><h2>The Entities Framework<a class="headerlink" href="#module-entities" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-entities" title="entities: The base classes of the entities framework."><tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt></a> module defines two base classes, <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> and <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a>.
+Entities should inherit from one of them.</p>
+<div class="section" id="the-entity-interface">
+<h3>The Entity Interface<a class="headerlink" href="#the-entity-interface" title="Permalink to this headline">¶</a></h3>
+<p>In order for an object to be an entity, it must provide the entity interface. This is defined by
+the <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> class and is described here:</p>
+<dl class="class">
+<dt id="entities.Entity">
+<em class="property">class </em><tt class="descclassname">entities.</tt><tt class="descname">Entity</tt><a class="headerlink" href="#entities.Entity" title="Permalink to this definition">¶</a></dt>
+<dd><p>All entities should inherit from this class, as it provides the <a class="reference internal" href="#entities.Entity.send" title="entities.Entity.send"><tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt></a> method:</p>
+<dl class="method">
+<dt id="entities.Entity.send">
+<tt class="descname">send</tt><big>(</big><big>)</big><a class="headerlink" href="#entities.Entity.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the entity&#8217;s keystring to <em class="xref std std-term">EOL</em> through the <a class="reference internal" href="autokey.html#module-sender" title="sender: Uses pywinauto to send virtual keystrokes to EOL. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">sender</span></tt></a> module.</p>
+</dd></dl>
+
+<p>An entity must also define the key sequence needed to send it to <em class="xref std std-term">EOL</em>. This can be done
+in one of two ways, defining <a class="reference internal" href="#entities.Entity.keystr" title="entities.Entity.keystr"><tt class="xref py py-attr docutils literal"><span class="pre">keystr</span></tt></a> or overriding <a class="reference internal" href="#entities.Entity._keys" title="entities.Entity._keys"><tt class="xref py py-meth docutils literal"><span class="pre">_keys()</span></tt></a> (which is usually the
+preferred method).</p>
+<dl class="attribute">
+<dt id="entities.Entity.keystr">
+<tt class="descname">keystr</tt><a class="headerlink" href="#entities.Entity.keystr" title="Permalink to this definition">¶</a></dt>
+<dd><p>This attribute is only needed if using the default implementation of <a class="reference internal" href="#entities.Entity._keys" title="entities.Entity._keys"><tt class="xref py py-meth docutils literal"><span class="pre">_keys()</span></tt></a>,
+otherwise it may be ignored. It is set by the default constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="entities.Entity._keys">
+<tt class="descname">_keys</tt><big>(</big><big>)</big><a class="headerlink" href="#entities.Entity._keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>If not overridden, the default implementation of <a class="reference internal" href="#entities.Entity._keys" title="entities.Entity._keys"><tt class="xref py py-meth docutils literal"><span class="pre">_keys()</span></tt></a> simply returns the object&#8217;s
+<a class="reference internal" href="#entities.Entity.keystr" title="entities.Entity.keystr"><tt class="xref py py-attr docutils literal"><span class="pre">keystr</span></tt></a> attribute. Otherwise, it should return a keystring suitable for sending
+with the <a class="reference internal" href="#entities.Entity.send" title="entities.Entity.send"><tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt></a> method.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="additional-functionality-of-the-entity-class">
+<h3>Additional Functionality of the <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> Class<a class="headerlink" href="#additional-functionality-of-the-entity-class" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the entity interface, the <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> class provides nice string
+representations of an entity object, as well as some other generic functionality.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">entities.</tt><tt class="descname">Entity</tt><big>(</big><em>keys</em><big>)</big></dt>
+<dd><p>The default <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> constructor accepts one argument, a keystring
+suitable for sending to <em class="xref std std-term">EOL</em>.</p>
+<dl class="classmethod">
+<dt id="entities.Entity.from_keylist">
+<em class="property">classmethod </em><tt class="descname">from_keylist</tt><big>(</big><em>keylist</em><big>)</big><a class="headerlink" href="#entities.Entity.from_keylist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses <a class="reference internal" href="autokey.html#keys.list_to_str" title="keys.list_to_str"><tt class="xref py py-func docutils literal"><span class="pre">keys.list_to_str()</span></tt></a> to get a keystring from its argument to create an
+<a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> with.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="entities.Entity.from_nice">
+<em class="property">classmethod </em><tt class="descname">from_nice</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#entities.Entity.from_nice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses <a class="reference internal" href="autokey.html#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">keys.parse_str()</span></tt></a> on its argument to get a keystring to create an
+<a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> with.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-dictentity-class">
+<h3>The <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> Class<a class="headerlink" href="#the-dictentity-class" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> class inherits from <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> and provides the entity interface,
+as well as a dictionary interface to its fields and a <tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt> method that uses <a class="reference external" href="http://docs.python.org/library/pickle.html#pickle" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">pickle</span></tt></a>
+to persist data. In order to use it, it must be subclasses and certain attributes must be
+provided.</p>
+<dl class="class">
+<dt id="entities.DictEntity">
+<em class="property">class </em><tt class="descclassname">entities.</tt><tt class="descname">DictEntity</tt><a class="headerlink" href="#entities.DictEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> class provides convenient field validation and a useful implementation
+of <a class="reference internal" href="#entities.Entity._keys" title="entities.Entity._keys"><tt class="xref py py-meth docutils literal"><span class="pre">_keys()</span></tt></a>, as long as all fields are constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.
+It also provides a nice string representation to subclasses and a <a class="reference internal" href="#entities.DictEntity.save" title="entities.DictEntity.save"><tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt></a> method.</p>
+<p>The default constructor is inherited from <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">dict</span></tt></a>, which may be fine for simpler entities, or
+it may be overridden to provide default field values or require arguments.</p>
+<p>In order to use <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a>, these two attributes must be defined:</p>
+<dl class="attribute">
+<dt id="entities.DictEntity._fields">
+<tt class="descname">_fields</tt><a class="headerlink" href="#entities.DictEntity._fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be a sequence of field type constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="entities.DictEntity._keyformat">
+<tt class="descname">_keyformat</tt><a class="headerlink" href="#entities.DictEntity._keyformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be a <a class="reference internal" href="autokey.html#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">keys.parse_str()</span></tt></a>-suitable string defining how the entity should be
+sent to <em class="xref std std-term">EOL</em>. It may contain field names in all caps enclosed in <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{&quot;</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">&quot;}&quot;</span></tt>, as
+long as those fields names are field constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module. If they are
+not, they must be included as <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{e[FIELD_NAME]}&quot;</span></tt> instead.</p>
+</dd></dl>
+
+<p>Here is an example of both <a class="reference internal" href="#entities.DictEntity._fields" title="entities.DictEntity._fields"><tt class="xref py py-attr docutils literal"><span class="pre">_fields</span></tt></a> and <a class="reference internal" href="#entities.DictEntity._keyformat" title="entities.DictEntity._keyformat"><tt class="xref py py-attr docutils literal"><span class="pre">_keyformat</span></tt></a>, taken from the
+<tt class="xref py py-class docutils literal"><span class="pre">SubroutineStep</span></tt> class (The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module has been imported using
+<tt class="docutils literal"><span class="pre">from</span> <span class="pre">fields</span> <span class="pre">import</span> <span class="pre">*</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CUE</span><span class="p">,</span><span class="n">TYPE</span><span class="p">,</span><span class="n">LEVEL</span><span class="p">,</span><span class="n">UPTIME</span><span class="p">,</span><span class="n">DOWNTIME</span><span class="p">,</span><span class="n">FOLLOW</span><span class="p">)</span>
+    <span class="n">_keyformat</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    S1 - + &lt;enter&gt; {CUE} &lt;enter&gt; &lt;right&gt; &lt;right&gt; {TYPE} {LEVEL}</span>
+<span class="s">    {UPTIME} &lt;enter&gt; {DOWNTIME} &lt;enter&gt; {FOLLOW}</span><span class="se">\n</span><span class="s"></span>
+<span class="s">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> class provides three ways to access and set fields. First, traditional
+dictionary access is supported:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span> <span class="o">=</span> <span class="n">SomeDictEntity</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="p">[</span><span class="n">fields</span><span class="o">.</span><span class="n">FIELD</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="p">[</span><span class="n">fields</span><span class="o">.</span><span class="n">FIELD</span><span class="p">]</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="p">[</span><span class="s">&quot;FIELD&quot;</span><span class="p">]</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<p>Fields may also be accessed using the dot operator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="o">.</span><span class="n">FIELD</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="o">.</span><span class="n">FIELD</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> will even accept mixed-case field names with the dot operator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="o">.</span><span class="n">Field</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="o">.</span><span class="n">field</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p>When the dot operator is used, if the requested field is not present in <a class="reference internal" href="#entities.DictEntity._fields" title="entities.DictEntity._fields"><tt class="xref py py-attr docutils literal"><span class="pre">_fields</span></tt></a>,
+it will simply try to get or set the attribute normally. However, when using dictionary
+access syntax, a <tt class="xref py py-obj docutils literal"><span class="pre">KeyError</span></tt> will be raised if the field is not there:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="o">.</span><span class="n">Invalid_Field</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">AttributeError</span>: <span class="n">&#39;SomeDictEntity&#39; object has no attribute &#39;Invalid_Field&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_entity</span><span class="p">[</span><span class="s">&quot;INVALID_FIELD&quot;</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;SomeDictEntity does not have a INVALID_FIELD field!&#39;</span>
+</pre></div>
+</div>
+<p>Additionally, <a class="reference internal" href="#fields.validateField" title="fields.validateField"><tt class="xref py py-func docutils literal"><span class="pre">fields.validateField()</span></tt></a> is used on all attempts to set field values. If it
+returns <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a>, a <tt class="xref py py-obj docutils literal"><span class="pre">TypeError</span></tt> is thrown.</p>
+<p>When certain fields are requested, they are returned in a special format suitable for
+<a class="reference internal" href="#entities.Entity.send" title="entities.Entity.send"><tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt></a>. Labels are returned preceded by the keycode for F6 to clear an existing
+label and spaces are replaced with the special &#8220;space&#8221; keycode. A Level field is returned as
+<tt class="xref py py-obj docutils literal"><span class="pre">&quot;Full&quot;</span></tt> if it is set to 100, otherwise it is returned as a zero-padded (if neccesary) string.</p>
+<p>Additionally, if an entity has a <tt class="xref py py-obj docutils literal"><span class="pre">TYPE</span></tt> field, it may define the <a class="reference internal" href="#entities.DictEntity._type" title="entities.DictEntity._type"><tt class="xref py py-attr docutils literal"><span class="pre">_type</span></tt></a> attribute.</p>
+<dl class="attribute">
+<dt id="entities.DictEntity._type">
+<tt class="descname">_type</tt><a class="headerlink" href="#entities.DictEntity._type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be a string. If set, when the <tt class="xref py py-obj docutils literal"><span class="pre">TYPE</span></tt> field is requested, this will be returned
+instead.</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> provides a method for pickling and saving entity data in a python-only
+binary format. To restore this saved data, use <a class="reference external" href="http://docs.python.org/library/pickle.html#pickle.load" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">pickle.load()</span></tt></a> from the standard libary.
+Alternatively, an entity can be saved in a nice human readable format, but note that said
+format is not readable back to a <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> at this point, though it may be used
+with <a class="reference internal" href="autokey.html#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">keys.parse_str()</span></tt></a> or <a class="reference internal" href="#entities.Entity.from_nice" title="entities.Entity.from_nice"><tt class="xref py py-meth docutils literal"><span class="pre">Entity.from_nice()</span></tt></a>.</p>
+<dl class="method">
+<dt id="entities.DictEntity.save">
+<tt class="descname">save</tt><big>(</big><em>f=None</em>, <em>nice=None</em><big>)</big><a class="headerlink" href="#entities.DictEntity.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the entity to a file using <a class="reference external" href="http://docs.python.org/library/pickle.html#pickle" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">pickle</span></tt></a>.</p>
+<p>If <tt class="xref py py-obj docutils literal"><span class="pre">f</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, it will attempt to use the file/filename from previous calls to
+<a class="reference internal" href="#entities.DictEntity.save" title="entities.DictEntity.save"><tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt></a>, but it will raise a <tt class="xref py py-obj docutils literal"><span class="pre">ValueError</span></tt> if save has not been called
+successfully before.</p>
+<p><tt class="xref py py-obj docutils literal"><span class="pre">f</span></tt> may be a filename or a file object. If it is string, it is interpreted as a
+filename, which is opened in overwrite mode. If it is a file object, it is used as is,
+although if pickle data is written to it will still be completely overwritten to make
+sure the pickle data is not corrupted.</p>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">nice</span></tt> argument will also be remember across calls to <a class="reference internal" href="#entities.DictEntity.save" title="entities.DictEntity.save"><tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt></a>. It controls
+whether data is written using pickle or as human-readable
+<a class="reference internal" href="autokey.html#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">keys.parse_str()</span></tt></a>-compatible text. If data is written as text, to a file which is
+already open in append mode, it will append the text data, as that does not invalidate
+it.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-fields">
+<span id="entity-fields-the-fields-module"></span><h2>Entity Fields – The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> Module<a class="headerlink" href="#module-fields" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module serves three purposes: it provides constants defining field types,
+which are used heavily by classes like <tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt>; it provides the <a class="reference internal" href="#fields.validateField" title="fields.validateField"><tt class="xref py py-func docutils literal"><span class="pre">validateField()</span></tt></a>
+function; and it provides classes for some more <em class="xref std std-term">complex field</em> types, such as <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A lot of the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module&#8217;s contents are badly implemented, and will likely
+change at a later time to be more extensible.</p>
+</div>
+<div class="section" id="field-type-constants">
+<h3>Field Type Constants<a class="headerlink" href="#field-type-constants" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module defines the following field types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CUE</span>
+<span class="n">LABEL</span>
+<span class="n">TYPE</span>
+<span class="n">UPTIME</span>
+<span class="n">DOWNTIME</span>
+<span class="n">UPWAIT</span>
+<span class="n">DOWNWAIT</span>
+<span class="n">DWELL</span>
+<span class="n">LINK</span>
+<span class="n">FOLLOW</span>
+<span class="n">RATE</span>
+<span class="n">LEVEL</span>
+<span class="n">LEVELS</span>
+<span class="n">STEP</span>
+<span class="n">STEPS</span>
+<span class="n">STYLE</span>
+<span class="n">DWEKK</span>
+<span class="n">TIME</span>
+<span class="n">LOW</span><span class="o">/</span><span class="n">LOWLEVEL</span>
+<span class="n">HIGH</span><span class="o">/</span><span class="n">HIGHLEVEL</span>
+<span class="n">CHANNELS</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-validatefield-function-field-validation">
+<h3>The <a class="reference internal" href="#fields.validateField" title="fields.validateField"><tt class="xref py py-func docutils literal"><span class="pre">validateField()</span></tt></a> Function – Field Validation<a class="headerlink" href="#the-validatefield-function-field-validation" title="Permalink to this headline">¶</a></h3>
+<p>This function is also used by <tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt> to attempt to ensure the validity of field
+values. At the moment it validates a very limited set of fields.</p>
+<dl class="function">
+<dt id="fields.validateField">
+<tt class="descclassname">fields.</tt><tt class="descname">validateField</tt><big>(</big><em>field</em>, <em>value</em><big>)</big><a class="headerlink" href="#fields.validateField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates <tt class="xref py py-obj docutils literal"><span class="pre">value</span></tt> as a value for a field of type <tt class="xref py py-obj docutils literal"><span class="pre">field</span></tt>.</p>
+<p>It returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the field validates, and <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a> if it doesn&#8217;t. If
+<a class="reference internal" href="#fields.validateField" title="fields.validateField"><tt class="xref py py-func docutils literal"><span class="pre">validateField()</span></tt></a> does not validate the specified field, it returns <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="complex-field-types">
+<h3>Complex Field Types<a class="headerlink" href="#complex-field-types" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module provides three base classes which other <em class="xref std std-term">complex field</em>s should
+inherit from.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A <em class="xref std std-term">complex field</em> is defined as an entity field which cannot be represented
+using a string or integer or has multiple sub-fields.</p>
+</div>
+<p>Complex fields must define <tt class="xref py py-obj docutils literal"><span class="pre">__str__</span></tt> such that when they are inserted into a keystring such as
+<tt class="xref py py-attr docutils literal"><span class="pre">DictEntity._keyformat'</span> <span class="pre">they</span> <span class="pre">provide</span> <span class="pre">the</span> <span class="pre">right</span> <span class="pre">representation</span> <span class="pre">to</span> <span class="pre">send</span> <span class="pre">to</span> <span class="pre">:term:`EOL</span></tt>.</p>
+<dl class="class">
+<dt id="fields.Field">
+<em class="property">class </em><tt class="descclassname">fields.</tt><tt class="descname">Field</tt><a class="headerlink" href="#fields.Field" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base field class. It does not actually do anything, and is only useful for type checking.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fields.DictField">
+<em class="property">class </em><tt class="descclassname">fields.</tt><tt class="descname">DictField</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#fields.DictField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Much like <a class="reference internal" href="#fields.Field" title="fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a>, it does nothing other than inherit from both <a class="reference internal" href="#fields.Field" title="fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a> and
+<a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">dict</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fields.List">
+<em class="property">class </em><tt class="descclassname">fields.</tt><tt class="descname">List</tt><big>(</big><em>type_=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#fields.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class implements validation as well as a recursive <tt class="xref py py-obj docutils literal"><span class="pre">__str__</span></tt> function, on top of the
+standard <a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">list</span></tt></a> interface.</p>
+<p>When initialized, the first argument, <tt class="xref py py-obj docutils literal"><span class="pre">type_</span></tt>, should be the type of the objects that the
+<a class="reference internal" href="#fields.List" title="fields.List"><tt class="xref py py-class docutils literal"><span class="pre">List</span></tt></a> should contain. When objects are added or set, their type is checked against
+it. Additional arguments are passed to the <a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">list</span></tt></a> constructor and will therefore be included
+in the list.</p>
+<p>Converting a <a class="reference internal" href="#fields.List" title="fields.List"><tt class="xref py py-class docutils literal"><span class="pre">List</span></tt></a> to a string is done by converting each element to a string and
+joining the results with newlines.</p>
+</dd></dl>
+
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module also provides a <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> <em class="xref std std-term">complex field</em> class for
+representing a set of levels, such as in a cue or submaster.</p>
+<dl class="class">
+<dt id="fields.Levels">
+<em class="property">class </em><tt class="descclassname">fields.</tt><tt class="descname">Levels</tt><a class="headerlink" href="#fields.Levels" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> class inherits from class:<a class="reference internal" href="#fields.DictField" title="fields.DictField"><tt class="xref py py-obj docutils literal"><span class="pre">DictField</span></tt></a> and therefore uses the dictionary
+interface for settings level values. Unfortunately, it is hardwired for a 192 channel console,
+which will probably change at somepoint.</p>
+<p>Unlike a <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a>, getting levels still returns an integer, and it is
+only when the object is converted to a string that level values are normalized for <em class="xref std std-term">EOL</em>.</p>
+<p><a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> may also be used as a base class for special level collections. If a class
+inherits from it, it may use all of the same interfaces and just provide a different
+<a class="reference internal" href="#fields.Levels._channel_format" title="fields.Levels._channel_format"><tt class="xref py py-attr docutils literal"><span class="pre">_channel_format</span></tt></a> attribute to cause the object to be converted to a string in a
+different way.</p>
+<dl class="attribute">
+<dt id="fields.Levels._channel_format">
+<tt class="descname">_channel_format</tt><a class="headerlink" href="#fields.Levels._channel_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>This should be a string much like <a class="reference internal" href="#entities.DictEntity._keyformat" title="entities.DictEntity._keyformat"><tt class="xref py py-attr docutils literal"><span class="pre">_keyformat</span></tt></a>, except with
+two built in keys, <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{chan}&quot;</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{level}&quot;</span></tt>. When the object is converted to a string,
+<a class="reference internal" href="#fields.Levels._channel_format" title="fields.Levels._channel_format"><tt class="xref py py-attr docutils literal"><span class="pre">_channel_format</span></tt></a> is used with each set level, where <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{chan}&quot;</span></tt> is replaced with the
+channel number and <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{level}&quot;</span></tt> is replaced with its level.</p>
+<p>The default value is <tt class="docutils literal"><span class="pre">&quot;Channel</span> <span class="pre">{chan}</span> <span class="pre">at</span> <span class="pre">{level}&quot;</span></tt>, but it can be set to anything.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Entities – Object-Oriented Interface to Console Data</a><ul>
+<li><a class="reference internal" href="#module-entities">The Entities Framework</a><ul>
+<li><a class="reference internal" href="#the-entity-interface">The Entity Interface</a></li>
+<li><a class="reference internal" href="#additional-functionality-of-the-entity-class">Additional Functionality of the <tt class="docutils literal"><span class="pre">Entity</span></tt> Class</a></li>
+<li><a class="reference internal" href="#the-dictentity-class">The <tt class="docutils literal"><span class="pre">DictEntity</span></tt> Class</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-fields">Entity Fields – The <tt class="docutils literal"><span class="pre">fields</span></tt> Module</a><ul>
+<li><a class="reference internal" href="#field-type-constants">Field Type Constants</a></li>
+<li><a class="reference internal" href="#the-validatefield-function-field-validation">The <tt class="docutils literal"><span class="pre">validateField()</span></tt> Function – Field Validation</a></li>
+<li><a class="reference internal" href="#complex-field-types">Complex Field Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="autokey.html"
-                        title="previous chapter">AutoKey Functionality - Sending Data to EOL</a></p>
+                        title="previous chapter">AutoKey Functionality – Sending Data to EOL</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="etcfiles.html"
                         title="next chapter">Working with Console Files</a></p>
@@ -101,7 +423,7 @@
           <a href="etcfiles.html" title="Working with Console Files"
              >next</a> |</li>
         <li class="right" >
-          <a href="autokey.html" title="AutoKey Functionality - Sending Data to EOL"
+          <a href="autokey.html" title="AutoKey Functionality – Sending Data to EOL"
              >previous</a> |</li>
         <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>

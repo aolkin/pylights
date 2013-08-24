@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/eol311.ico"/>
     <link rel="top" title="EOL AutoKey v0.5" href="#" />
-    <link rel="next" title="AutoKey Functionality - Sending Data to EOL" href="autokey.html" /> 
+    <link rel="next" title="AutoKey Functionality – Sending Data to EOL" href="autokey.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,7 +38,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="autokey.html" title="AutoKey Functionality - Sending Data to EOL"
+          <a href="autokey.html" title="AutoKey Functionality – Sending Data to EOL"
              accesskey="N">next</a> |</li>
         <li><a href="#">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>
@@ -62,6 +62,12 @@ able to run ETC&#8217;s Expression Off-Line software.</p>
 <p>I work with an ETC Express 48/96, so it has been optimized for that console.
 However, it should work fine with other consoles supported by Expression
 Off-Line, in theory, although it may not be able to read their showfiles.</p>
+<div class="section" id="get-the-code">
+<h2>Get the Code<a class="headerlink" href="#get-the-code" title="Permalink to this headline">¶</a></h2>
+<p>The source code is available on github: <a class="reference external" href="https://github.com/baryon5/eol-autokey">https://github.com/baryon5/eol-autokey</a></p>
+<p>In order to be able to send keystrokes to <em class="xref std std-term">EOL</em>, you must have python 2.7
+or later with <tt class="xref py py-mod docutils literal"><span class="pre">pywinauto</span></tt> installed.</p>
+</div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>This documentation assumes you are familiar with an ETC console and related
@@ -69,12 +75,27 @@ concepts (and ideally Expression Off-Line as well), as it only explains how
 those things relate to this python interface.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="autokey.html">AutoKey Functionality - Sending Data to EOL</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="autokey.html">AutoKey Functionality – Sending Data to EOL</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="autokey.html#module-sender">The <tt class="docutils literal"><span class="pre">sender</span></tt> Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autokey.html#module-keys">The <tt class="docutils literal"><span class="pre">keys</span></tt> Module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="autokey.html#module-internals">Module Internals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autokey.html#higher-level-functionality">Higher Level Functionality</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autokey.html#default-contents-of-keys-names">Default Contents of <tt class="docutils literal"><span class="pre">keys.names</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="entities.html">Entities – Object-Oriented Interface to Console Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="entities.html#module-entities">The Entities Framework</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#the-entity-interface">The Entity Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#additional-functionality-of-the-entity-class">Additional Functionality of the <tt class="docutils literal"><span class="pre">Entity</span></tt> Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#the-dictentity-class">The <tt class="docutils literal"><span class="pre">DictEntity</span></tt> Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="entities.html#module-fields">Entity Fields – The <tt class="docutils literal"><span class="pre">fields</span></tt> Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#field-type-constants">Field Type Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#the-validatefield-function-field-validation">The <tt class="docutils literal"><span class="pre">validateField()</span></tt> Function – Field Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#complex-field-types">Complex Field Types</a></li>
 </ul>
 </li>
 </ul>
@@ -99,6 +120,7 @@ those things relate to this python interface.</p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">EOL AutoKey</a><ul>
+<li><a class="reference internal" href="#get-the-code">Get the Code</a></li>
 <li><a class="reference internal" href="#documentation">Documentation</a><ul>
 </ul>
 </li>
@@ -108,7 +130,7 @@ those things relate to this python interface.</p>
 
   <h4>Next topic</h4>
   <p class="topless"><a href="autokey.html"
-                        title="next chapter">AutoKey Functionality - Sending Data to EOL</a></p>
+                        title="next chapter">AutoKey Functionality – Sending Data to EOL</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -141,7 +163,7 @@ those things relate to this python interface.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="autokey.html" title="AutoKey Functionality - Sending Data to EOL"
+          <a href="autokey.html" title="AutoKey Functionality – Sending Data to EOL"
              >next</a> |</li>
         <li><a href="#">EOL AutoKey v0.5</a> &raquo;</li> 
       </ul>

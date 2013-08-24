@@ -1,6 +1,6 @@
 .. Documentation of all functionality related to sending keystrokes
 
-AutoKey Functionality - Sending Data to EOL
+AutoKey Functionality – Sending Data to EOL
 ***********************************************
 
 EOL AutoKey's method of putting its data into a format ETC consoles can understand relies on

@@ -20,6 +20,14 @@ I work with an ETC Express 48/96, so it has been optimized for that console.
 However, it should work fine with other consoles supported by Expression
 Off-Line, in theory, although it may not be able to read their showfiles.
 
+Get the Code
+====================================
+
+The source code is available on github: https://github.com/baryon5/eol-autokey
+
+In order to be able to send keystrokes to :term:`EOL`, you must have python 2.7
+or later with :mod:`pywinauto` installed.
+
 Documentation
 ====================================
 

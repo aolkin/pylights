@@ -24,6 +24,12 @@ CHANNELS = "CHANNELS"
 
 ### Validator function
 def validateField(field,value):
+    """
+    Validates `value` as a value for a field of type `field`.
+
+    It returns `True` if the field validates, and `False` if it doesn't. If
+    :func:`validateField` does not validate the specified field, it returns `None`.
+    """
     if field == LABEL:
         return False if len(value) > 16 else True
     elif field == LEVEL:

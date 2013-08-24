@@ -11,13 +11,25 @@ STRINGS = (str,getattr(__builtins__,"unicode",None))
 class Entity:
     @classmethod
     def from_keylist(keylist):
+        """
+        Uses :func:`keys.list_to_str` to get a keystring from its argument to create an
+        :class:`Entity` with.
+        """
         return Entity(keys.list_to_str(keylist))
 
     @classmethod
     def from_nice(string):
+        """
+        Uses :func:`keys.parse_str` on its argument to get a keystring to create an
+        :class:`Entity` with.
+        """
         return Entity(keys.parse_str(string))
 
     def __init__(self,keys):
+        """
+        The default :class:`Entity` constructor accepts one argument, a keystring
+        suitable for sending to :term:`EOL`.
+        """
         self.keystr = keys
 
     def __str__(self):
@@ -34,6 +46,7 @@ class Entity:
             raise NotImplementedError("Subclasses must implement _keys")
 
     def send(self):
+        """Sends the entity's keystring to :term:`EOL` through the :mod:`sender` module."""
         sender.send(self._keys())
 
 class _NoFormatFakeDict:
@@ -84,16 +97,38 @@ class DictEntity(Entity,dict):
     def __setattr__(self,key,val):
         if key.upper() in self._fields:
             self[key.upper()] = val
+        elif getattr(fields,key.upper()) in self._fields:
+            self[getattr(fields,key.upper())] = val
         else:
             super(DictEntity,self).__setattr__(key,val)
 
     def __getattr__(self,key):
         if key.upper() in self._fields:
             return self[key.upper()]
+        elif getattr(fields,key.upper()) in self._fields:
+            return self[getattr(fields,key.upper())]
         else:
             return self.__getattribute__(key)
 
     def save(self,f=None,nice=None):
+        """
+        Saves the entity to a file using :mod:`pickle`.
+
+        If `f` is `None`, it will attempt to use the file/filename from previous calls to
+        :meth:`save`, but it will raise a `ValueError` if save has not been called
+        successfully before.
+
+        `f` may be a filename or a file object. If it is string, it is interpreted as a
+        filename, which is opened in overwrite mode. If it is a file object, it is used as is,
+        although if pickle data is written to it will still be completely overwritten to make
+        sure the pickle data is not corrupted.
+
+        The `nice` argument will also be remember across calls to :meth:`save`. It controls
+        whether data is written using pickle or as human-readable
+        :func:`keys.parse_str`-compatible text. If data is written as text, to a file which is
+        already open in append mode, it will append the text data, as that does not invalidate
+        it.
+        """
         if not f:
             if not getattr(self,"_f",None):
                 raise ValueError("This entity does not have a filename yet, please "+
@@ -108,7 +143,7 @@ class DictEntity(Entity,dict):
         if type(f) in STRINGS:
             f = open(f,"w" if nice else "wb")
         if nice:
-            f.write(str(self))
+            f.write("\n"+str(self)+"\n")
         else:
             f.truncate(0)
-            pickle.dump(self,f,pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self,f,2)

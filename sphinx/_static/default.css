@@ -64,25 +64,26 @@ div.related a {
     color: #ffffff;
 }
 
-div.sphinxsidebar {
-    top: 30px;
-    bottom: 0;
-    margin: 0;
-    position: fixed;
-    overflow: auto;
-    height: auto;
-}
-/* this is nice, but it it leads to hidden headings when jumping
-   to an anchor */
-/*
-div.related {
-    position: fixed;
-}
+@media (min-device-width: 480px) {
+    div.sphinxsidebar {
+	top: 30px;
+	margin: 0;
+	position: fixed;
+	overflow: auto;
+	height: auto;
+    }
+    /* this is nice, but it it leads to hidden headings when jumping
+       to an anchor */
+    /*
+    div.related {
+        position: fixed;
+    }
 
-div.documentwrapper {
-    margin-top: 30px;
+    div.documentwrapper {
+        margin-top: 30px;
+    }
+    */
 }
-*/
 
 div.sphinxsidebar {
     color: #E5E5E5;
@@ -283,7 +284,7 @@ pre {
 }
 
 tt {
-    background-color: #ecf0f3;
+    background-color: #3a3a3a;
     padding: 0 1px 0 1px;
     font-size: 0.95em;
 }

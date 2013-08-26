@@ -1,3 +1,5 @@
+"""Provides Cue entities and related helpers"""
+
 from . import DictEntity,Entity
 
 from fields import *
@@ -29,7 +31,7 @@ class SubroutineStep(DictEntity):
     S1 - + <enter> {CUE} <enter> <right> <right> {TYPE} {LEVEL}
     {UPTIME} <enter> {DOWNTIME} <enter> {FOLLOW}\n
     """
-    def __init__(self,cue,type_=1,level=100,**kwargs):
+    def __init__(self,cue,type_=CROSSFADE,level=100,**kwargs):
         super(SubroutineStep,self).__init__(**kwargs)
         self[CUE] = cue
         self[TYPE] = type_

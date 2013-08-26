@@ -17,6 +17,8 @@ The Entities Framework
 The :mod:`entities` module defines two base classes, :class:`Entity` and :class:`DictEntity`.
 Entities should inherit from one of them.
 
+.. _the-entity-interface:
+
 The Entity Interface
 ---------------------------------------
 
@@ -154,7 +156,7 @@ Entity Fields – The :mod:`fields` Module
 ==============================================
 
 .. automodule:: fields
-   :synopsis: Provides field type constants and :term:`complex field` classes.
+   :synopsis: Provides field type constants and complex field classes.
 
 The :mod:`fields` module serves three purposes: it provides constants defining field types,
 which are used heavily by classes like :class:`DictEntity`; it provides the :func:`validateField`
@@ -166,29 +168,35 @@ function; and it provides classes for some more :term:`complex field` types, suc
 Field Type Constants
 ----------------------------------
 
-The :mod:`fields` module defines the following field types::
+The :mod:`fields` module defines the following field types:
 
-  CUE
-  LABEL
-  TYPE
-  UPTIME
-  DOWNTIME
-  UPWAIT
-  DOWNWAIT
-  DWELL
-  LINK
-  FOLLOW
-  RATE
-  LEVEL
-  LEVELS
-  STEP
-  STEPS
-  STYLE
-  DWEKK
-  TIME
-  LOW/LOWLEVEL
-  HIGH/HIGHLEVEL
-  CHANNELS
+.. data:: CUE
+.. data:: LABEL
+.. data:: TYPE
+.. data:: UPTIME
+.. data:: DOWNTIME
+.. data:: UPWAIT
+.. data:: DOWNWAIT
+.. data:: DWELL
+.. data:: LINK
+.. data:: FOLLOW
+.. data:: RATE
+.. data:: LEVEL
+.. data:: LEVELS
+.. data:: STEP
+.. data:: STEPS
+.. data:: STYLE
+.. data:: TIME
+.. data:: CHANNELS
+.. data:: LOWLEVEL
+.. data:: LOW
+
+   This is just an alias to :const:`LOWLEVEL`.
+
+.. data:: HIGHLEVEL
+.. data:: HIGH
+
+   This is just an alias to :const:`HIGHLEVEL`.
 
 The :func:`validateField` Function – Field Validation
 -------------------------------------------------------
@@ -208,7 +216,8 @@ inherit from.
 	  using a string or integer or has multiple sub-fields.
 
 Complex fields must define `__str__` such that when they are inserted into a keystring such as
-:attr:`DictEntity._keyformat' they provide the right representation to send to :term:`EOL`.
+:attr:`entities.DictEntity._keyformat` they provide the right representation to send to
+:term:`EOL`.
 
 .. class:: Field()
 
@@ -237,8 +246,8 @@ representing a set of levels, such as in a cue or submaster.
 
 .. class:: Levels
 
-   The :class:`Levels` class inherits from class:`DictField` and therefore uses the dictionary
-   interface for settings level values. Unfortunately, it is hardwired for a 192 channel console,
+   The :class:`Levels` class inherits from :class:`DictField` and therefore uses the dictionary
+   interface for setting level values. Unfortunately, it is hardwired for a 192 channel console,
    which will probably change at somepoint.
 
    Unlike a :class:`~entities.DictEntity`, getting levels still returns an integer, and it is

@@ -233,3 +233,19 @@ _ = Documentation.gettext;
 $(document).ready(function() {
   Documentation.init();
 });
+
+jQuery.getScript("_static/jquery.scrollTo-1.4.3.1-min.js");
+jQuery.getScript("_static/jquery.localscroll-1.2.7-min.js",function(e){
+    $.localScroll({
+	duration: 400,
+	hash: true,
+	onBefore: function(e,el,t) {
+	    $(".highlighted").removeClass("highlighted");
+	    el = $(el);
+	    if (el.text() && !el.is(".section")) {
+		el.addClass("highlighted");
+	    }
+	}
+    });
+    //$.localScroll.hash()
+});

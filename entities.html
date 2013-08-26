@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/eol311.ico"/>
     <link rel="top" title="EOL AutoKey v0.5" href="index.html" />
-    <link rel="next" title="Working with Console Files" href="etcfiles.html" />
+    <link rel="next" title="Built-In Entities" href="builtins.html" />
     <link rel="prev" title="AutoKey Functionality – Sending Data to EOL" href="autokey.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="etcfiles.html" title="Working with Console Files"
+          <a href="builtins.html" title="Built-In Entities"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="autokey.html" title="AutoKey Functionality – Sending Data to EOL"
@@ -58,13 +58,13 @@
 <p>EOL AutoKey provides a framework for representing the entities used by a light board (cues, subs,
 etc) in the <a class="reference internal" href="#module-entities" title="entities: The base classes of the entities framework."><tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt></a> module, as well as several built-in entities in its submodules. In
 addition, it provides certain constants and classes for entity fields and field types in the
-<a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.</p>
+<a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.</p>
 <div class="section" id="module-entities">
 <span id="the-entities-framework"></span><h2>The Entities Framework<a class="headerlink" href="#module-entities" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#module-entities" title="entities: The base classes of the entities framework."><tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt></a> module defines two base classes, <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> and <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a>.
 Entities should inherit from one of them.</p>
 <div class="section" id="the-entity-interface">
-<h3>The Entity Interface<a class="headerlink" href="#the-entity-interface" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3>The Entity Interface<a class="headerlink" href="#the-entity-interface" title="Permalink to this headline">¶</a></h3>
 <p>In order for an object to be an entity, it must provide the entity interface. This is defined by
 the <a class="reference internal" href="#entities.Entity" title="entities.Entity"><tt class="xref py py-class docutils literal"><span class="pre">Entity</span></tt></a> class and is described here:</p>
 <dl class="class">
@@ -134,7 +134,7 @@ provided.</p>
 <dt id="entities.DictEntity">
 <em class="property">class </em><tt class="descclassname">entities.</tt><tt class="descname">DictEntity</tt><a class="headerlink" href="#entities.DictEntity" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a> class provides convenient field validation and a useful implementation
-of <a class="reference internal" href="#entities.Entity._keys" title="entities.Entity._keys"><tt class="xref py py-meth docutils literal"><span class="pre">_keys()</span></tt></a>, as long as all fields are constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.
+of <a class="reference internal" href="#entities.Entity._keys" title="entities.Entity._keys"><tt class="xref py py-meth docutils literal"><span class="pre">_keys()</span></tt></a>, as long as all fields are constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.
 It also provides a nice string representation to subclasses and a <a class="reference internal" href="#entities.DictEntity.save" title="entities.DictEntity.save"><tt class="xref py py-meth docutils literal"><span class="pre">save()</span></tt></a> method.</p>
 <p>The default constructor is inherited from <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">dict</span></tt></a>, which may be fine for simpler entities, or
 it may be overridden to provide default field values or require arguments.</p>
@@ -142,7 +142,7 @@ it may be overridden to provide default field values or require arguments.</p>
 <dl class="attribute">
 <dt id="entities.DictEntity._fields">
 <tt class="descname">_fields</tt><a class="headerlink" href="#entities.DictEntity._fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>This should be a sequence of field type constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.</p>
+<dd><p>This should be a sequence of field type constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -150,12 +150,12 @@ it may be overridden to provide default field values or require arguments.</p>
 <tt class="descname">_keyformat</tt><a class="headerlink" href="#entities.DictEntity._keyformat" title="Permalink to this definition">¶</a></dt>
 <dd><p>This should be a <a class="reference internal" href="autokey.html#keys.parse_str" title="keys.parse_str"><tt class="xref py py-func docutils literal"><span class="pre">keys.parse_str()</span></tt></a>-suitable string defining how the entity should be
 sent to <em class="xref std std-term">EOL</em>. It may contain field names in all caps enclosed in <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{&quot;</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">&quot;}&quot;</span></tt>, as
-long as those fields names are field constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module. If they are
+long as those fields names are field constants from the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module. If they are
 not, they must be included as <tt class="xref py py-obj docutils literal"><span class="pre">&quot;{e[FIELD_NAME]}&quot;</span></tt> instead.</p>
 </dd></dl>
 
 <p>Here is an example of both <a class="reference internal" href="#entities.DictEntity._fields" title="entities.DictEntity._fields"><tt class="xref py py-attr docutils literal"><span class="pre">_fields</span></tt></a> and <a class="reference internal" href="#entities.DictEntity._keyformat" title="entities.DictEntity._keyformat"><tt class="xref py py-attr docutils literal"><span class="pre">_keyformat</span></tt></a>, taken from the
-<tt class="xref py py-class docutils literal"><span class="pre">SubroutineStep</span></tt> class (The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module has been imported using
+<a class="reference internal" href="builtins.html#entities.cues.SubroutineStep" title="entities.cues.SubroutineStep"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineStep</span></tt></a> class (The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module has been imported using
 <tt class="docutils literal"><span class="pre">from</span> <span class="pre">fields</span> <span class="pre">import</span> <span class="pre">*</span></tt>):</p>
 <div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CUE</span><span class="p">,</span><span class="n">TYPE</span><span class="p">,</span><span class="n">LEVEL</span><span class="p">,</span><span class="n">UPTIME</span><span class="p">,</span><span class="n">DOWNTIME</span><span class="p">,</span><span class="n">FOLLOW</span><span class="p">)</span>
     <span class="n">_keyformat</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
@@ -241,41 +241,130 @@ it.</p>
 </div>
 </div>
 <div class="section" id="module-fields">
-<span id="entity-fields-the-fields-module"></span><h2>Entity Fields – The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> Module<a class="headerlink" href="#module-fields" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module serves three purposes: it provides constants defining field types,
+<span id="entity-fields-the-fields-module"></span><h2>Entity Fields – The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> Module<a class="headerlink" href="#module-fields" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module serves three purposes: it provides constants defining field types,
 which are used heavily by classes like <tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt>; it provides the <a class="reference internal" href="#fields.validateField" title="fields.validateField"><tt class="xref py py-func docutils literal"><span class="pre">validateField()</span></tt></a>
 function; and it provides classes for some more <em class="xref std std-term">complex field</em> types, such as <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">A lot of the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module&#8217;s contents are badly implemented, and will likely
+<p class="last">A lot of the <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module&#8217;s contents are badly implemented, and will likely
 change at a later time to be more extensible.</p>
 </div>
 <div class="section" id="field-type-constants">
 <h3>Field Type Constants<a class="headerlink" href="#field-type-constants" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module defines the following field types:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">CUE</span>
-<span class="n">LABEL</span>
-<span class="n">TYPE</span>
-<span class="n">UPTIME</span>
-<span class="n">DOWNTIME</span>
-<span class="n">UPWAIT</span>
-<span class="n">DOWNWAIT</span>
-<span class="n">DWELL</span>
-<span class="n">LINK</span>
-<span class="n">FOLLOW</span>
-<span class="n">RATE</span>
-<span class="n">LEVEL</span>
-<span class="n">LEVELS</span>
-<span class="n">STEP</span>
-<span class="n">STEPS</span>
-<span class="n">STYLE</span>
-<span class="n">DWEKK</span>
-<span class="n">TIME</span>
-<span class="n">LOW</span><span class="o">/</span><span class="n">LOWLEVEL</span>
-<span class="n">HIGH</span><span class="o">/</span><span class="n">HIGHLEVEL</span>
-<span class="n">CHANNELS</span>
-</pre></div>
-</div>
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module defines the following field types:</p>
+<dl class="data">
+<dt id="fields.CUE">
+<tt class="descclassname">fields.</tt><tt class="descname">CUE</tt><a class="headerlink" href="#fields.CUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.LABEL">
+<tt class="descclassname">fields.</tt><tt class="descname">LABEL</tt><a class="headerlink" href="#fields.LABEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.TYPE">
+<tt class="descclassname">fields.</tt><tt class="descname">TYPE</tt><a class="headerlink" href="#fields.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.UPTIME">
+<tt class="descclassname">fields.</tt><tt class="descname">UPTIME</tt><a class="headerlink" href="#fields.UPTIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.DOWNTIME">
+<tt class="descclassname">fields.</tt><tt class="descname">DOWNTIME</tt><a class="headerlink" href="#fields.DOWNTIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.UPWAIT">
+<tt class="descclassname">fields.</tt><tt class="descname">UPWAIT</tt><a class="headerlink" href="#fields.UPWAIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.DOWNWAIT">
+<tt class="descclassname">fields.</tt><tt class="descname">DOWNWAIT</tt><a class="headerlink" href="#fields.DOWNWAIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.DWELL">
+<tt class="descclassname">fields.</tt><tt class="descname">DWELL</tt><a class="headerlink" href="#fields.DWELL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.LINK">
+<tt class="descclassname">fields.</tt><tt class="descname">LINK</tt><a class="headerlink" href="#fields.LINK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.FOLLOW">
+<tt class="descclassname">fields.</tt><tt class="descname">FOLLOW</tt><a class="headerlink" href="#fields.FOLLOW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.RATE">
+<tt class="descclassname">fields.</tt><tt class="descname">RATE</tt><a class="headerlink" href="#fields.RATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.LEVEL">
+<tt class="descclassname">fields.</tt><tt class="descname">LEVEL</tt><a class="headerlink" href="#fields.LEVEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.LEVELS">
+<tt class="descclassname">fields.</tt><tt class="descname">LEVELS</tt><a class="headerlink" href="#fields.LEVELS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.STEP">
+<tt class="descclassname">fields.</tt><tt class="descname">STEP</tt><a class="headerlink" href="#fields.STEP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.STEPS">
+<tt class="descclassname">fields.</tt><tt class="descname">STEPS</tt><a class="headerlink" href="#fields.STEPS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.STYLE">
+<tt class="descclassname">fields.</tt><tt class="descname">STYLE</tt><a class="headerlink" href="#fields.STYLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.TIME">
+<tt class="descclassname">fields.</tt><tt class="descname">TIME</tt><a class="headerlink" href="#fields.TIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.CHANNELS">
+<tt class="descclassname">fields.</tt><tt class="descname">CHANNELS</tt><a class="headerlink" href="#fields.CHANNELS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.LOWLEVEL">
+<tt class="descclassname">fields.</tt><tt class="descname">LOWLEVEL</tt><a class="headerlink" href="#fields.LOWLEVEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.LOW">
+<tt class="descclassname">fields.</tt><tt class="descname">LOW</tt><a class="headerlink" href="#fields.LOW" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is just an alias to <a class="reference internal" href="#fields.LOWLEVEL" title="fields.LOWLEVEL"><tt class="xref py py-const docutils literal"><span class="pre">LOWLEVEL</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="fields.HIGHLEVEL">
+<tt class="descclassname">fields.</tt><tt class="descname">HIGHLEVEL</tt><a class="headerlink" href="#fields.HIGHLEVEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="fields.HIGH">
+<tt class="descclassname">fields.</tt><tt class="descname">HIGH</tt><a class="headerlink" href="#fields.HIGH" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is just an alias to <a class="reference internal" href="#fields.HIGHLEVEL" title="fields.HIGHLEVEL"><tt class="xref py py-const docutils literal"><span class="pre">HIGHLEVEL</span></tt></a>.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="the-validatefield-function-field-validation">
 <h3>The <a class="reference internal" href="#fields.validateField" title="fields.validateField"><tt class="xref py py-func docutils literal"><span class="pre">validateField()</span></tt></a> Function – Field Validation<a class="headerlink" href="#the-validatefield-function-field-validation" title="Permalink to this headline">¶</a></h3>
@@ -292,7 +381,7 @@ values. At the moment it validates a very limited set of fields.</p>
 </div>
 <div class="section" id="complex-field-types">
 <h3>Complex Field Types<a class="headerlink" href="#complex-field-types" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module provides three base classes which other <em class="xref std std-term">complex field</em>s should
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module provides three base classes which other <em class="xref std std-term">complex field</em>s should
 inherit from.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -300,7 +389,8 @@ inherit from.</p>
 using a string or integer or has multiple sub-fields.</p>
 </div>
 <p>Complex fields must define <tt class="xref py py-obj docutils literal"><span class="pre">__str__</span></tt> such that when they are inserted into a keystring such as
-<tt class="xref py py-attr docutils literal"><span class="pre">DictEntity._keyformat'</span> <span class="pre">they</span> <span class="pre">provide</span> <span class="pre">the</span> <span class="pre">right</span> <span class="pre">representation</span> <span class="pre">to</span> <span class="pre">send</span> <span class="pre">to</span> <span class="pre">:term:`EOL</span></tt>.</p>
+<a class="reference internal" href="#entities.DictEntity._keyformat" title="entities.DictEntity._keyformat"><tt class="xref py py-attr docutils literal"><span class="pre">entities.DictEntity._keyformat</span></tt></a> they provide the right representation to send to
+<em class="xref std std-term">EOL</em>.</p>
 <dl class="class">
 <dt id="fields.Field">
 <em class="property">class </em><tt class="descclassname">fields.</tt><tt class="descname">Field</tt><a class="headerlink" href="#fields.Field" title="Permalink to this definition">¶</a></dt>
@@ -327,13 +417,13 @@ in the list.</p>
 joining the results with newlines.</p>
 </dd></dl>
 
-<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and :term:`complex field` classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module also provides a <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> <em class="xref std std-term">complex field</em> class for
+<p>The <a class="reference internal" href="#module-fields" title="fields: Provides field type constants and complex field classes."><tt class="xref py py-mod docutils literal"><span class="pre">fields</span></tt></a> module also provides a <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> <em class="xref std std-term">complex field</em> class for
 representing a set of levels, such as in a cue or submaster.</p>
 <dl class="class">
 <dt id="fields.Levels">
 <em class="property">class </em><tt class="descclassname">fields.</tt><tt class="descname">Levels</tt><a class="headerlink" href="#fields.Levels" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> class inherits from class:<a class="reference internal" href="#fields.DictField" title="fields.DictField"><tt class="xref py py-obj docutils literal"><span class="pre">DictField</span></tt></a> and therefore uses the dictionary
-interface for settings level values. Unfortunately, it is hardwired for a 192 channel console,
+<dd><p>The <a class="reference internal" href="#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">Levels</span></tt></a> class inherits from <a class="reference internal" href="#fields.DictField" title="fields.DictField"><tt class="xref py py-class docutils literal"><span class="pre">DictField</span></tt></a> and therefore uses the dictionary
+interface for setting level values. Unfortunately, it is hardwired for a 192 channel console,
 which will probably change at somepoint.</p>
 <p>Unlike a <a class="reference internal" href="#entities.DictEntity" title="entities.DictEntity"><tt class="xref py py-class docutils literal"><span class="pre">DictEntity</span></tt></a>, getting levels still returns an integer, and it is
 only when the object is converted to a string that level values are normalized for <em class="xref std std-term">EOL</em>.</p>
@@ -386,8 +476,8 @@ channel number and <tt class="xref py py-obj docutils literal"><span class="pre"
   <p class="topless"><a href="autokey.html"
                         title="previous chapter">AutoKey Functionality – Sending Data to EOL</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="etcfiles.html"
-                        title="next chapter">Working with Console Files</a></p>
+  <p class="topless"><a href="builtins.html"
+                        title="next chapter">Built-In Entities</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/entities.txt"
@@ -420,7 +510,7 @@ channel number and <tt class="xref py py-obj docutils literal"><span class="pre"
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="etcfiles.html" title="Working with Console Files"
+          <a href="builtins.html" title="Built-In Entities"
              >next</a> |</li>
         <li class="right" >
           <a href="autokey.html" title="AutoKey Functionality – Sending Data to EOL"

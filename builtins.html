@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Built-In Entities &mdash; EOL AutoKey v0.5</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/eol311.ico"/>
+    <link rel="top" title="EOL AutoKey v0.5" href="index.html" />
+    <link rel="next" title="Working with Console Files" href="etcfiles.html" />
+    <link rel="prev" title="Entities – Object-Oriented Interface to Console Data" href="entities.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="etcfiles.html" title="Working with Console Files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="entities.html" title="Entities – Object-Oriented Interface to Console Data"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="built-in-entities">
+<h1>Built-In Entities<a class="headerlink" href="#built-in-entities" title="Permalink to this headline">¶</a></h1>
+<p>EOL AutoKey provides several common entities in submodules of the <a class="reference internal" href="entities.html#module-entities" title="entities: The base classes of the entities framework."><tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt></a> module.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unless otherwise specified, all documented modules on this page are submodules of the
+<a class="reference internal" href="entities.html#module-entities" title="entities: The base classes of the entities framework."><tt class="xref py py-mod docutils literal"><span class="pre">entities</span></tt></a> module.</p>
+</div>
+<p>All entities described on this page use <a class="reference internal" href="entities.html#the-entity-interface"><em>The Entity Interface</em></a>. As such, they all inherit
+send, which is used to send the entity to <em class="xref std std-term">EOL</em>.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">Entity.</tt><tt class="descname">send</tt><big>(</big><big>)</big></dt>
+<dd><p>Sends the entity&#8217;s keystring to <em class="xref std std-term">EOL</em> through the <a class="reference internal" href="autokey.html#module-sender" title="sender: Uses pywinauto to send virtual keystrokes to EOL. (Windows)"><tt class="xref py py-mod docutils literal"><span class="pre">sender</span></tt></a> module.</p>
+</dd></dl>
+
+<div class="section" id="module-entities.cues">
+<span id="cues"></span><h2>Cues<a class="headerlink" href="#module-entities.cues" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-entities.cues" title="entities.cues: Provides cue entities."><tt class="xref py py-mod docutils literal"><span class="pre">cues</span></tt></a> module provides three cue classes and three classes used by some of the
+cue classes, as well as some useful constants for cue types.</p>
+<div class="section" id="the-cue-class-a-basic-cue">
+<h3>The <a class="reference internal" href="#entities.cues.Cue" title="entities.cues.Cue"><tt class="xref py py-class docutils literal"><span class="pre">Cue</span></tt></a> Class – A Basic Cue<a class="headerlink" href="#the-cue-class-a-basic-cue" title="Permalink to this headline">¶</a></h3>
+<p>Of the five types of cues (Crossfade, Allfade, Blocking, Effect, and Subroutine), the first three
+should all be created using the <a class="reference internal" href="#entities.cues.Cue" title="entities.cues.Cue"><tt class="xref py py-class docutils literal"><span class="pre">Cue</span></tt></a> class. Those three cue types should then be
+differentiated by the cue <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> field.</p>
+<dl class="class">
+<dt id="entities.cues.Cue">
+<em class="property">class </em><tt class="descclassname">entities.cues.</tt><tt class="descname">Cue</tt><big>(</big><em>num</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#entities.cues.Cue" title="Permalink to this definition">¶</a></dt>
+<dd><p>You must provide a cue&#8217;s number on instantiation, though it may be changed after.</p>
+<p>This class is setup so that if a field is unspecified, it should use the console&#8217;s default.</p>
+<p>A basic cue has the following fields:</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CUE</span><span class="p">,</span><span class="n">TYPE</span><span class="p">,</span><span class="n">UPTIME</span><span class="p">,</span><span class="n">DOWNTIME</span><span class="p">,</span><span class="n">UPWAIT</span><span class="p">,</span><span class="n">DOWNWAIT</span><span class="p">,</span><span class="n">LINK</span><span class="p">,</span><span class="n">FOLLOW</span><span class="p">,</span><span class="n">RATE</span><span class="p">,</span><span class="n">LEVELS</span><span class="p">,</span><span class="n">LABEL</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="cue-type-constants">
+<span id="id1"></span><h4>Cue Type Constants<a class="headerlink" href="#cue-type-constants" title="Permalink to this headline">¶</a></h4>
+<p>The <a class="reference internal" href="#module-entities.cues" title="entities.cues: Provides cue entities."><tt class="xref py py-mod docutils literal"><span class="pre">cues</span></tt></a> module also provides three constants (with abbreviated aliases) for
+different cue types.</p>
+<dl class="data">
+<dt id="entities.cues.XF">
+<tt class="descclassname">entities.cues.</tt><tt class="descname">XF</tt><a class="headerlink" href="#entities.cues.XF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="entities.cues.CROSSFADE">
+<tt class="descclassname">entities.cues.</tt><tt class="descname">CROSSFADE</tt><a class="headerlink" href="#entities.cues.CROSSFADE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> of a crossfade cue.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="entities.cues.AF">
+<tt class="descclassname">entities.cues.</tt><tt class="descname">AF</tt><a class="headerlink" href="#entities.cues.AF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="entities.cues.ALLFADE">
+<tt class="descclassname">entities.cues.</tt><tt class="descname">ALLFADE</tt><a class="headerlink" href="#entities.cues.ALLFADE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> of an allfade cue.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="entities.cues.BF">
+<tt class="descclassname">entities.cues.</tt><tt class="descname">BF</tt><a class="headerlink" href="#entities.cues.BF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="entities.cues.BLOCKING">
+<tt class="descclassname">entities.cues.</tt><tt class="descname">BLOCKING</tt><a class="headerlink" href="#entities.cues.BLOCKING" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> of a blocking cue.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="subroutines-the-subroutinecue-and-subroutinestep-classes">
+<h3>Subroutines – The <a class="reference internal" href="#entities.cues.SubroutineCue" title="entities.cues.SubroutineCue"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineCue</span></tt></a> and <a class="reference internal" href="#entities.cues.SubroutineStep" title="entities.cues.SubroutineStep"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineStep</span></tt></a> Classes<a class="headerlink" href="#subroutines-the-subroutinecue-and-subroutinestep-classes" title="Permalink to this headline">¶</a></h3>
+<p>A Subroutine Cue should be not be created using the <a class="reference internal" href="#entities.cues.Cue" title="entities.cues.Cue"><tt class="xref py py-class docutils literal"><span class="pre">Cue</span></tt></a> class, but rather the
+<a class="reference internal" href="#entities.cues.SubroutineCue" title="entities.cues.SubroutineCue"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineCue</span></tt></a> class.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#entities.cues.SubroutineCue" title="entities.cues.SubroutineCue"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineCue</span></tt></a> does not inherit from <a class="reference internal" href="#entities.cues.Cue" title="entities.cues.Cue"><tt class="xref py py-class docutils literal"><span class="pre">Cue</span></tt></a>.</p>
+</div>
+<dl class="class">
+<dt id="entities.cues.SubroutineCue">
+<em class="property">class </em><tt class="descclassname">entities.cues.</tt><tt class="descname">SubroutineCue</tt><big>(</big><em>num</em>, <em>steps=()</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#entities.cues.SubroutineCue" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#entities.cues.SubroutineCue" title="entities.cues.SubroutineCue"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineCue</span></tt></a> functions much like an <a class="reference internal" href="#entities.cues.Cue" title="entities.cues.Cue"><tt class="xref py py-class docutils literal"><span class="pre">Cue</span></tt></a>, except with many fewer fields.
+Additionally, its <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> will always be forced to <tt class="xref py py-obj docutils literal"><span class="pre">4</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CUE</span><span class="p">,</span><span class="n">STEPS</span><span class="p">,</span><span class="n">RATE</span><span class="p">,</span><span class="n">LABEL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="entities.html#fields.STEPS" title="fields.STEPS"><tt class="xref py py-const docutils literal"><span class="pre">STEPS</span></tt></a> field should never be set directly, instead, it is a
+<a class="reference internal" href="entities.html#fields.List" title="fields.List"><tt class="xref py py-class docutils literal"><span class="pre">fields.List</span></tt></a> to which <a class="reference internal" href="#entities.cues.SubroutineStep" title="entities.cues.SubroutineStep"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineStep</span></tt></a> objects should be added.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="entities.cues.SubroutineStep">
+<em class="property">class </em><tt class="descclassname">entities.cues.</tt><tt class="descname">SubroutineStep</tt><big>(</big><em>cue</em>, <em>type_=1</em>, <em>level=100</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#entities.cues.SubroutineStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#entities.cues.SubroutineStep" title="entities.cues.SubroutineStep"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineStep</span></tt></a> has the following fields:</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CUE</span><span class="p">,</span><span class="n">TYPE</span><span class="p">,</span><span class="n">LEVEL</span><span class="p">,</span><span class="n">UPTIME</span><span class="p">,</span><span class="n">DOWNTIME</span><span class="p">,</span><span class="n">FOLLOW</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once again, the <a class="reference internal" href="#cue-type-constants"><em>Cue Type Constants</em></a> may be used for the <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> field.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="effect-cues-the-effectcue-and-effectstep-classes">
+<h3>Effect Cues – The <a class="reference internal" href="#entities.cues.EffectCue" title="entities.cues.EffectCue"><tt class="xref py py-class docutils literal"><span class="pre">EffectCue</span></tt></a> and <a class="reference internal" href="#entities.cues.EffectStep" title="entities.cues.EffectStep"><tt class="xref py py-class docutils literal"><span class="pre">EffectStep</span></tt></a> Classes<a class="headerlink" href="#effect-cues-the-effectcue-and-effectstep-classes" title="Permalink to this headline">¶</a></h3>
+<p>Effect Cues should be created using the <a class="reference internal" href="#entities.cues.EffectCue" title="entities.cues.EffectCue"><tt class="xref py py-class docutils literal"><span class="pre">EffectCue</span></tt></a> class.</p>
+<dl class="class">
+<dt id="entities.cues.EffectCue">
+<em class="property">class </em><tt class="descclassname">entities.cues.</tt><tt class="descname">EffectCue</tt><big>(</big><em>num</em>, <em>steps=()</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#entities.cues.EffectCue" title="Permalink to this definition">¶</a></dt>
+<dd><p>An <a class="reference internal" href="#entities.cues.EffectCue" title="entities.cues.EffectCue"><tt class="xref py py-class docutils literal"><span class="pre">EffectCue</span></tt></a> has most of the fields of a <a class="reference internal" href="#entities.cues.Cue" title="entities.cues.Cue"><tt class="xref py py-class docutils literal"><span class="pre">Cue</span></tt></a>, but in most ways it functions
+more like a <a class="reference internal" href="#entities.cues.SubroutineCue" title="entities.cues.SubroutineCue"><tt class="xref py py-class docutils literal"><span class="pre">SubroutineCue</span></tt></a>. Its <a class="reference internal" href="entities.html#fields.TYPE" title="fields.TYPE"><tt class="xref py py-const docutils literal"><span class="pre">TYPE</span></tt></a> will be forced to <tt class="xref py py-obj docutils literal"><span class="pre">3</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CUE</span><span class="p">,</span><span class="n">STEPS</span><span class="p">,</span><span class="n">UPTIME</span><span class="p">,</span><span class="n">DOWNTIME</span><span class="p">,</span><span class="n">DWELL</span><span class="p">,</span><span class="n">LINK</span><span class="p">,</span><span class="n">FOLLOW</span><span class="p">,</span><span class="n">RATE</span><span class="p">,</span><span class="n">LABEL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="entities.html#fields.STEPS" title="fields.STEPS"><tt class="xref py py-const docutils literal"><span class="pre">STEPS</span></tt></a> field is a <a class="reference internal" href="entities.html#fields.List" title="fields.List"><tt class="xref py py-class docutils literal"><span class="pre">fields.List</span></tt></a> to which <a class="reference internal" href="#entities.cues.EffectStep" title="entities.cues.EffectStep"><tt class="xref py py-class docutils literal"><span class="pre">EffectStep</span></tt></a>
+objects should be added.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="entities.cues.EffectStep">
+<em class="property">class </em><tt class="descclassname">entities.cues.</tt><tt class="descname">EffectStep</tt><big>(</big><em>channels={}</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#entities.cues.EffectStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>An <a class="reference internal" href="#entities.cues.EffectStep" title="entities.cues.EffectStep"><tt class="xref py py-class docutils literal"><span class="pre">EffectStep</span></tt></a> has the following fields:</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="n">_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">CHANNELS</span><span class="p">,</span><span class="n">TIME</span><span class="p">,</span><span class="n">UPTIME</span><span class="p">,</span><span class="n">DWELL</span><span class="p">,</span><span class="n">DOWNTIME</span><span class="p">,</span><span class="n">LOWLEVEL</span><span class="p">,</span><span class="n">HIGHLEVEL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Its <a class="reference internal" href="entities.html#fields.CHANNELS" title="fields.CHANNELS"><tt class="xref py py-const docutils literal"><span class="pre">CHANNELS</span></tt></a> field is an <a class="reference internal" href="#entities.cues.EffectChannels" title="entities.cues.EffectChannels"><tt class="xref py py-class docutils literal"><span class="pre">EffectChannels</span></tt></a> object that inherits from
+and behaves as a <a class="reference internal" href="entities.html#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">fields.Levels</span></tt></a> object. After object creation, all changes should be
+made using that interface.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="entities.cues.EffectChannels">
+<em class="property">class </em><tt class="descclassname">entities.cues.</tt><tt class="descname">EffectChannels</tt><a class="headerlink" href="#entities.cues.EffectChannels" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class does little other than inherit from <a class="reference internal" href="entities.html#fields.Levels" title="fields.Levels"><tt class="xref py py-class docutils literal"><span class="pre">fields.Levels</span></tt></a> and redefine
+<a class="reference internal" href="entities.html#fields.Levels._channel_format" title="fields.Levels._channel_format"><tt class="xref py py-attr docutils literal"><span class="pre">_channel_format</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Built-In Entities</a><ul>
+<li><a class="reference internal" href="#module-entities.cues">Cues</a><ul>
+<li><a class="reference internal" href="#the-cue-class-a-basic-cue">The <tt class="docutils literal"><span class="pre">Cue</span></tt> Class – A Basic Cue</a><ul>
+<li><a class="reference internal" href="#cue-type-constants">Cue Type Constants</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#subroutines-the-subroutinecue-and-subroutinestep-classes">Subroutines – The <tt class="docutils literal"><span class="pre">SubroutineCue</span></tt> and <tt class="docutils literal"><span class="pre">SubroutineStep</span></tt> Classes</a></li>
+<li><a class="reference internal" href="#effect-cues-the-effectcue-and-effectstep-classes">Effect Cues – The <tt class="docutils literal"><span class="pre">EffectCue</span></tt> and <tt class="docutils literal"><span class="pre">EffectStep</span></tt> Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="entities.html"
+                        title="previous chapter">Entities – Object-Oriented Interface to Console Data</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="etcfiles.html"
+                        title="next chapter">Working with Console Files</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/builtins.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="etcfiles.html" title="Working with Console Files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="entities.html" title="Entities – Object-Oriented Interface to Console Data"
+             >previous</a> |</li>
+        <li><a href="index.html">EOL AutoKey v0.5</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013 Aaron Olkin.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

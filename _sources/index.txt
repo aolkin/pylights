@@ -40,4 +40,5 @@ those things relate to this python interface.
 
    autokey
    entities
+   builtins
    etcfiles

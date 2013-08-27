@@ -19,7 +19,7 @@ class PChannel(Writeable,Readable):
 
     def __init__(self,dimmer,atype=0,home=0,dispformat=0,attrs=None,type=None,
                  independent=False,LTP=False,sixteenbit=False,flipped=False):
-        if not (atype < len_attribute_types):
+        if atype < len(_attribute_types):
             self.atype = atype
         else:
             self.atype = 0

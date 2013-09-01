@@ -47,27 +47,27 @@ names.addkeys({
     '^s': 'abrate',
     '{F3}': 'about',
     'n': 'and',
-    'a': 'at',
-    '^k': 'blackout',
+    'a': ('at', '@'),
+    '^k': ('blackout', 'black', 'b/o'),
     '+{F2}': ('blind','blindmode'),
     '^c': 'cdback',
     '^z': 'cdclear',
     '^b': 'cdgo',
     '^v': 'cdhold',
     '^x': 'cdrate',
-    'c': ('channel','chan','ch'),
-    '{DELETE}': 'clear',
-    'q': 'cue',
-    'd': ('dimmer','dim'),
-    '{DOWN}': ('down','downarrow'),
-    '{ENTER}': 'enter',
-    'x': 'except',
+    'c': ('channel','chan','ch', 'c'),
+    '{DELETE}': ('clear', 'clr'),
+    'q': ('cue', 'q'),
+    'd': ('dimmer','dim', 'd'),
+    '{DOWN}': ('down','downarrow', 'dn'),
+    '{ENTER}': ('enter', ';'),
+    'x': ('except', 'x'),
     '+{F8}': 'expand',
-    '+{F3}': 'fader',
+    '+{F3}': ('fader', 'fad'),
     '!': ('focuspoint','fp'),
     'f': ('full','fl'),
-    'g': 'group',
-    '?': 'help',
+    'g': ('group', 'g'),
+    '?': ('help', '?'),
     'b': 'label',
     '{F4}': 'learn',
     '{LEFT}': ('left','leftarrow'),
@@ -76,10 +76,10 @@ names.addkeys({
     '{PGUP}': ('levelwheelup','levelup','wheelup'),
     'k': 'link',
     '#': ('loadsub','loadsubmaster'),
-    'm': ('macro*','m*'),
+    'm': ('macro','m'),
     '^e': ('macroenter','menter'),
     '^w': ('macrowait','mwait'),
-    'o': 'only',
+    'o': ('only', 'o'),
     'j': ('page','subpage','submasterpage'),
     '+{F6}': 'park',
     'p': 'part',
@@ -113,7 +113,7 @@ for i in range(1,9):
 
 ### Built-In Sequences
 # Maps several names to pressing "enter" twice.
-names.addseq("<enter><enter>","confirm","confirmed","dblenter","enterenter","doubleenter")
+names.addseq("<enter><enter>","confirm","confirmed","dblenter","enterenter","doubleenter",";;")
 
 # Maps "forcestage" to a sequence that should put the console in stage mode no matter what.
 names.addseq("<stage><macroenter><clear><stage>","forcestage")
@@ -121,10 +121,10 @@ names.addseq("<stage><macroenter><clear><stage>","forcestage")
 # Maps "save" to the sequence needed to execute the "Write All to Disk" action.
 names.addseq("<setup>3<enter>1<enter><enter><stage>","save")
 
-# Maps "reset" to a sequence that will execute a system reset.
-names.addseq("<setup>4<enter><s1><enter>","reset")
+# Maps "reset" to a sequence that will set up a system reset.
+names.addseq("<setup>4<enter><s1>","forcesystemreset")
 
-names.addseq("<blind><s6>","deletecue")
+names.addseq("<blind><s6>","deletecue", "kill cue")
 names.addseq("<blind><sub><s6>","deletesub","deletesubmaster")
 
 # Maps "pause" to twenty presses of the space key, which is ignored by EOL.

@@ -3,9 +3,11 @@ PyLights
 
 ###### Python functionality for controlling and working with ETC lighting consoles
 
-PyLights contains three packages, daemon, client, and entities.
+PyLights contains three packages for external use, daemon, client, and entities, as well
+as some internal packages.
 
-PyLights is designed to be compatible with both python >=2.7 and 3.x.
+PyLights is designed to be compatible with both python 2.7 and >=3.2 where possible. For
+this reason, [six](https://pypi.python.org/pypi/six/) is bundled at pylights.libs.six.
 
 #### The Daemon Package
 
@@ -13,7 +15,7 @@ The daemon package allows you to run a server that will forward commands to Expr
 or a physical console via MIDI. Only one of those options may be used, or they can be combined
 for maximum usefulness.
 
-Sending commands to Expression Off-Line requires several *nix programs to be installed:
+Sending commands to Expression Off-Line requires several *nix programs/libraries to be installed:
 - [Xvfb] (http://www.x.org/archive/current/doc/man/man1/Xvfb.1.xhtml)
 - [xdotool] (http://www.semicomplete.com/projects/xdotool/)
 - [wine] (http://www.winehq.org/)

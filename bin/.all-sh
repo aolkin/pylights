@@ -1,0 +1,16 @@
+#!/bin/false
+
+export PYTHON_EXECUTABLE=`which python3`
+if [ -z "$executable" ]; then
+    export PYTHON_EXECUTABLE=`which python`
+fi 
+
+if [ "$(basename "$(pwd)")" == "bin" ]; then
+    cd ..
+fi
+
+if [ "`$PYTHON_EXECUTABLE -m pylights 2>&1`x" != "x" ]; then
+    echo "PyLights does not appear to be installed properly."
+    echo "If you are running commands from a local copy, check that you are in the correct directory."
+    exit 1
+fi

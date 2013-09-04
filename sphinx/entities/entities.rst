@@ -4,17 +4,17 @@ Entities – Object-Oriented Interface to Console Data
 *******************************************************
 
 EOL AutoKey provides a framework for representing the entities used by a light board (cues, subs,
-etc) in the :mod:`entities` module, as well as several built-in entities in its submodules. In
+etc) in the :mod:`pylights.entities` module, as well as several built-in entities in its submodules. In
 addition, it provides certain constants and classes for entity fields and field types in the
-:mod:`fields` module.
+:mod:`pylights.entities.fields` module.
 
 The Entities Framework
 =======================================
 
-.. module:: entities
+.. module:: pylights.entities
    :synopsis: The base classes of the entities framework.
 
-The :mod:`entities` module defines two base classes, :class:`Entity` and :class:`DictEntity`.
+The :mod:`pylights.entities` module defines two base classes, :class:`Entity` and :class:`DictEntity`.
 Entities should inherit from one of them.
 
 .. _the-entity-interface:
@@ -66,7 +66,7 @@ provided.
 .. class:: DictEntity
 
    The :class:`DictEntity` class provides convenient field validation and a useful implementation
-   of :meth:`~Entity._keys`, as long as all fields are constants from the :mod:`fields` module.
+   of :meth:`~Entity._keys`, as long as all fields are constants from the :mod:`pylights.entities.fields` module.
    It also provides a nice string representation to subclasses and a :meth:`save` method.
 
    The default constructor is inherited from `dict`, which may be fine for simpler entities, or
@@ -76,20 +76,20 @@ provided.
 
    .. attribute:: _fields
 
-      This should be a sequence of field type constants from the :mod:`fields` module.
+      This should be a sequence of field type constants from the :mod:`pylights.entities.fields` module.
 
    .. attribute:: _keyformat
 
       This should be a :func:`keys.parse_str`\ -suitable string defining how the entity should be
       sent to :term:`EOL`. It may contain field names in all caps enclosed in `"{"` and `"}"`, as
-      long as those fields names are field constants from the :mod:`fields` module. If they are
+      long as those fields names are field constants from the :mod:`pylights.entities.fields` module. If they are
       not, they must be included as `"{e[FIELD_NAME]}"` instead.
 
    Here is an example of both :attr:`_fields` and :attr:`_keyformat`, taken from the
-   :class:`~entities.cues.SubroutineStep` class (The :mod:`fields` module has been imported using
-   ``from fields import *``):
+   :class:`~pylights.entities.cues.SubroutineStep` class (The :mod:`pylights.entities.fields` module has been imported using
+   ``from pylights.entities.fields import *``):
 
-   .. literalinclude:: /../entities/cues.py
+   .. literalinclude:: /../pylights/entities/cues.py
 	 :start-after: class SubroutineStep(
 	 :end-before: def __init__(
 
@@ -97,8 +97,8 @@ provided.
    dictionary access is supported::
 
      >>> my_entity = SomeDictEntity()
-     >>> my_entity[fields.FIELD] = 5
-     >>> my_entity[fields.FIELD]
+     >>> my_entity[pylights.entities.fields.FIELD] = 5
+     >>> my_entity[pylights.entities.fields.FIELD]
      5
      >>> my_entity["FIELD"]
      5
@@ -128,7 +128,7 @@ provided.
      ...
      KeyError: 'SomeDictEntity does not have a INVALID_FIELD field!'
 
-   Additionally, :func:`fields.validateField` is used on all attempts to set field values. If it
+   Additionally, :func:`pylights.entities.fields.validateField` is used on all attempts to set field values. If it
    returns `False`, a `TypeError` is thrown.
 
    When certain fields are requested, they are returned in a special format suitable for
@@ -152,23 +152,23 @@ provided.
    .. automethod:: save
 
 
-Entity Fields – The :mod:`fields` Module
-==============================================
+Entity Fields – The :mod:`pylights.entities.fields` Module
+===========================================================
 
-.. automodule:: fields
+.. automodule:: pylights.entities.fields
    :synopsis: Provides field type constants and complex field classes.
 
-The :mod:`fields` module serves three purposes: it provides constants defining field types,
+The :mod:`pylights.entities.fields` module serves three purposes: it provides constants defining field types,
 which are used heavily by classes like :class:`DictEntity`; it provides the :func:`validateField`
 function; and it provides classes for some more :term:`complex field` types, such as :class:`Levels`.
 
-.. Note:: A lot of the :mod:`fields` module's contents are badly implemented, and will likely
+.. Note:: A lot of the :mod:`pylights.entities.fields` module's contents are badly implemented, and will likely
 	  change at a later time to be more extensible.
 
 Field Type Constants
 ----------------------------------
 
-The :mod:`fields` module defines the following field types:
+The :mod:`pylights.entities.fields` module defines the following field types:
 
 .. data:: CUE
 .. data:: LABEL
@@ -209,14 +209,14 @@ values. At the moment it validates a very limited set of fields.
 Complex Field Types
 -------------------------------------------------------
 
-The :mod:`fields` module provides three base classes which other :term:`complex field`\ s should
+The :mod:`pylights.entities.fields` module provides three base classes which other :term:`complex field`\ s should
 inherit from.
 
 .. Note:: A :term:`complex field` is defined as an entity field which cannot be represented
 	  using a string or integer or has multiple sub-fields.
 
 Complex fields must define `__str__` such that when they are inserted into a keystring such as
-:attr:`entities.DictEntity._keyformat` they provide the right representation to send to
+:attr:`pylights.entities.DictEntity._keyformat` they provide the right representation to send to
 :term:`EOL`.
 
 .. class:: Field()
@@ -241,7 +241,7 @@ Complex fields must define `__str__` such that when they are inserted into a key
    Converting a :class:`List` to a string is done by converting each element to a string and
    joining the results with newlines.
 
-The :mod:`fields` module also provides a :class:`Levels` :term:`complex field` class for
+The :mod:`pylights.entities.fields` module also provides a :class:`Levels` :term:`complex field` class for
 representing a set of levels, such as in a cue or submaster.
 
 .. class:: Levels
@@ -250,7 +250,7 @@ representing a set of levels, such as in a cue or submaster.
    interface for setting level values. Unfortunately, it is hardwired for a 192 channel console,
    which will probably change at somepoint.
 
-   Unlike a :class:`~entities.DictEntity`, getting levels still returns an integer, and it is
+   Unlike a :class:`~pylights.entities.DictEntity`, getting levels still returns an integer, and it is
    only when the object is converted to a string that level values are normalized for :term:`EOL`.
 
    :class:`Levels` may also be used as a base class for special level collections. If a class
@@ -260,7 +260,7 @@ representing a set of levels, such as in a cue or submaster.
 
    .. attribute:: _channel_format
 
-      This should be a string much like :attr:`~entities.DictEntity._keyformat`, except with
+      This should be a string much like :attr:`~pylights.entities.DictEntity._keyformat`, except with
       two built in keys, `"{chan}"` and `"{level}"`. When the object is converted to a string,
       :attr:`_channel_format` is used with each set level, where `"{chan}"` is replaced with the
       channel number and `"{level}"` is replaced with its level.

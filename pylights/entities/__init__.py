@@ -2,7 +2,7 @@ from __future__ import division, unicode_literals
 
 import pickle
 
-import sender, keys, fields
+import fields
 
 ENTITY_MODULE = __name__
 

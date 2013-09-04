@@ -12,16 +12,16 @@ Working with ETC Showfiles
 ===================================================
 **#TODO**
 
-.. automodule: /Removed : to comment out/ etcfiles.shwfile
+.. automodule: /Removed : to comment out/ pylights.entities.etcfiles.shwfile
    :members:
 
 Working with ETC Fixture Personalities
 ===================================================
-.. module:: etcfiles.personality
+.. module:: pylights.entities.etcfiles.personality
    :synopsis: Allows you to use ETC's Fixture Personality files.
 
-The :mod:`~etcfiles.personality` module provides two public classes for working with Fixture
-Personalities. Unlike :class:`~etcfiles.shwfile.Showfile`\ s, the :class:`Personality` class may
+The :mod:`~pylights.entities.etcfiles.personality` module provides two public classes for working with Fixture
+Personalities. Unlike :class:`~pylights.entities.etcfiles.shwfile.Showfile`\ s, the :class:`Personality` class may
 be read from and written to ETC personality files directly and should have no problems.
 
 .. The :class:`Personality` and :class:`PChannel` classes support all of the data stored in a
@@ -40,7 +40,7 @@ be read from and written to ETC personality files directly and should have no pr
       Use this method to load a :class:`Personality` from an ETC personality file. `fn` is the
       filename to load from, and `writeable` controls whether the filename will be remembered.
 
-      For a little more explanation, see :meth:`etcfiles.Readable.from_file`.
+      For a little more explanation, see :meth:`pylights.entities.etcfiles.Readable.from_file`.
 
    .. method:: write(fn=None)
 
@@ -185,7 +185,7 @@ be read from and written to ETC personality files directly and should have no pr
       reccomended to use the same settings as the first channel, except without the 16 Bit
       attribute set, and with the dimmer set one up, of course.
 
-The :mod:`~etcfiles.personality` module provides two module level constants to assist in
+The :mod:`~pylights.entities.etcfiles.personality` module provides two module level constants to assist in
 generating nicer representations of the data stored in a personality. They are mainly used
 internally, but are documented here anyway. They are each lists, since they only need to map
 a contiguous set of integers starting at 0, for which list indices work fine.
@@ -203,14 +203,14 @@ a contiguous set of integers starting at 0, for which list indices work fine.
 
 Adding Binary File IO Support to Custom Classes
 ===================================================
-.. module:: etcfiles
+.. module:: pylights.entities.etcfiles
    :synopsis: Provides functionality for representing and working with objects
       stored in binary files created by ETC software.
 
 .. Note:: These classes are used by the modules of the etcfiles package and probably have no
 	  external use, so they are just documented here because they can be!
 
-The base :mod:`etcfiles` module contains base classes that implement some binary
+The base :mod:`pylights.entities.etcfiles` module contains base classes that implement some binary
 file IO. These can be inherited to use their functionality in custom classes. To make a class
 readable, inherit :class:`Readable`. To make a class writeable, inherit :class:`Writeable`.
 You may use any combination of the two classes, so a class can be readable and writeable,

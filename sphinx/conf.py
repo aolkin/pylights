@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'EOL AutoKey'
+project = u'PyLights'
 copyright = u'2013 Aaron Olkin'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -175,7 +175,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'EOLAutoKeydoc'
+htmlhelp_basename = 'PyLightsdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -194,7 +194,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'EOLAutoKey.tex', u'EOL AutoKey',
+  ('index', 'PyLights.tex', u'PyLights',
    u'Aaron Olkin', 'manual'),
 ]
 
@@ -224,7 +224,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'eolautokey', u'EOL AutoKey Documentation',
+    ('index', 'PyLights', u'PyLights Documentation',
      [u'Aaron Olkin'], 1)
 ]
 
@@ -238,8 +238,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'EOLAutoKey', u'EOL AutoKey Documentation',
-   u'Aaron Olkin', 'EOLAutoKey', 'One line description of project.',
+  ('index', 'PyLights', u'PyLights Documentation',
+   u'Aaron Olkin', 'PyLights', 'One line description of project.',
    'Miscellaneous'),
 ]
 

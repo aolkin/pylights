@@ -46,4 +46,4 @@ This package provides pythonic data structures for representing console entities
 The Makefile in the root directory of this project is for generating sphinx documentation,
 not building any part of project code.
 
-[Documentation for Latest Version] (http://eol-autokey.baryon5.tk/)
+[Documentation for Latest Version] (http://pylights.baryon5.tk/)

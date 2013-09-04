@@ -1,0 +1,44 @@
+digraph CommandFlow {
+	graph [fontname="sans-serif"];
+	node [fontname="sans-serif"];
+	edge [fontname="sans-serif"];
+	
+	queue [label="Thread-Safe FIFO Queue",shape=invtrapezium,xlabel=2];
+	Parser [shape=invtriangle,xlabel=3];
+	EOL [label="Expression Off-Line",xlabel=4,shape=box];
+	xutils [label="X Utilities",xlabel=5,shape=hexagon];
+	capture [label="'Window'-Shots",xlabel=6,shape=tab];
+	"Macro Numbers" [xlabel=7,shape=egg];
+	"MIDI Messages" [xlabel=8,shape=cds];
+	Server [xlabel=1,shape=box3d];
+	"Web Server" [shape=box3d];
+	"History Keeper" [shape=folder];
+	showdata [label="Versioned Show Data",shape=component];
+	"Useful Data Files" [shape=note];
+	"Shell Script" [shape=Mdiamond];
+	"Mobile App" [shape=Mdiamond];
+	"Web Interface" [shape=Mdiamond];
+	"The Board" [shape=box3d];
+	"MIDI Output" [shape=octagon];
+	
+	subgraph clustervpn {
+		label = "Hamachi VPN";
+		"Shell Script";"Web Interface";"Mobile App";"Web Server";
+		{"Web Interface";"Mobile App"} -> "Web Server" [dir=both];
+	};
+	subgraph clusterthread1 {
+		label = "Daemon Server Thread";
+		"Shell Script" -> Server [weight=2];
+		Server -> queue [headport=n];
+	}
+	subgraph clusterthread2 {
+		label = "Daemon Command Processing Thread";
+		queue -> "History Keeper" -> showdata;
+		showdata -> {queue,"Useful Data Files"} [headport=n];
+		queue -> "Parser" -> EOL -> xutils -> capture [weight=4];
+		"Parser" -> "Macro Numbers" -> "MIDI Messages" -> "MIDI Output";
+	}
+	"MIDI Output" -> "The Board";
+	capture -> "Web Server" [weight=1];
+	"Web Server" -> Server [weight=2];
+}

@@ -1,28 +1,28 @@
 .. Documentation of built-in entities
 
-.. |type| replace:: :const:`~fields.TYPE`
+.. |type| replace:: :const:`~pylights.entities.fields.TYPE`
 
 Built-In Entities
 *********************************************
 
-EOL AutoKey provides several common entities in submodules of the :mod:`entities` module.
+PyLights provides several common entities in the :mod:`pylights.entities` module.
 
 .. Note:: Unless otherwise specified, all documented modules on this page are submodules of the
-	  :mod:`entities` module.
+	  :mod:`pylights.entities` module.
 
 All entities described on this page use :ref:`the-entity-interface`. As such, they all inherit
 send, which is used to send the entity to :term:`EOL`.
 
-.. automethod:: entities.Entity.send
+.. automethod:: pylights.entities.Entity.send
    :noindex:
 
 Cues
 =============================================
 
-.. module:: entities.cues
+.. module:: pylights.entities.cues
    :synopsis: Provides cue entities.
 
-The :mod:`~entities.cues` module provides three cue classes and three classes used by some of the
+The :mod:`~pylights.entities.cues` module provides three cue classes and three classes used by some of the
 cue classes, as well as some useful constants for cue types.
 
 The :class:`Cue` Class – A Basic Cue
@@ -40,7 +40,7 @@ differentiated by the cue |type| field.
 
    A basic cue has the following fields:
 
-   .. literalinclude:: /../entities/cues.py
+   .. literalinclude:: /../pylights/entities/cues.py
       :start-after: class Cue(
       :end-before: _keyformat = 
 
@@ -49,7 +49,7 @@ differentiated by the cue |type| field.
 Cue Type Constants
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The :mod:`~entities.cues` module also provides three constants (with abbreviated aliases) for
+The :mod:`~pylights.entities.cues` module also provides three constants (with abbreviated aliases) for
 different cue types.
 
 .. data:: XF
@@ -80,18 +80,18 @@ A Subroutine Cue should be not be created using the :class:`Cue` class, but rath
    A :class:`SubroutineCue` functions much like an :class:`Cue`, except with many fewer fields.
    Additionally, its |type| will always be forced to `4`.
 
-   .. literalinclude:: /../entities/cues.py
+   .. literalinclude:: /../pylights/entities/cues.py
       :start-after: class SubroutineCue(
       :end-before: _type = 
 
-   The :const:`~fields.STEPS` field should never be set directly, instead, it is a
-   :class:`fields.List` to which :class:`SubroutineStep` objects should be added.
+   The :const:`~pylights.entities.fields.STEPS` field should never be set directly, instead, it is a
+   :class:`pylights.entities.fields.List` to which :class:`SubroutineStep` objects should be added.
 
 .. autoclass:: SubroutineStep
 
    A :class:`SubroutineStep` has the following fields:
 
-   .. literalinclude:: /../entities/cues.py
+   .. literalinclude:: /../pylights/entities/cues.py
       :start-after: class SubroutineStep(
       :end-before: _keyformat = 
 
@@ -107,26 +107,26 @@ Effect Cues should be created using the :class:`EffectCue` class.
    An :class:`EffectCue` has most of the fields of a :class:`Cue`, but in most ways it functions
    more like a :class:`SubroutineCue`. Its |type| will be forced to `3`.
 
-   .. literalinclude:: /../entities/cues.py
+   .. literalinclude:: /../pylights/entities/cues.py
       :start-after: class EffectCue(
       :end-before: _type = 
 
-   The :const:`~fields.STEPS` field is a :class:`fields.List` to which :class:`EffectStep`
+   The :const:`~pylights.entities.fields.STEPS` field is a :class:`pylights.entities.fields.List` to which :class:`EffectStep`
    objects should be added.
 
 .. autoclass:: EffectStep
 
    An :class:`EffectStep` has the following fields:
 
-   .. literalinclude:: /../entities/cues.py
+   .. literalinclude:: /../pylights/entities/cues.py
       :start-after: class EffectStep(
       :end-before: _keyformat = 
 
-   Its :const:`~fields.CHANNELS` field is an :class:`EffectChannels` object that inherits from
-   and behaves as a :class:`fields.Levels` object. After object creation, all changes should be
+   Its :const:`~pylights.entities.fields.CHANNELS` field is an :class:`EffectChannels` object that inherits from
+   and behaves as a :class:`pylights.entities.fields.Levels` object. After object creation, all changes should be
    made using that interface.
 
 .. class:: EffectChannels
 
-   This class does little other than inherit from :class:`fields.Levels` and redefine
-   :attr:`~fields.Levels._channel_format`.
+   This class does little other than inherit from :class:`pylights.entities.fields.Levels` and redefine
+   :attr:`~pylights.entities.fields.Levels._channel_format`.

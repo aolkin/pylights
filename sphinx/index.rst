@@ -1,44 +1,63 @@
-.. EOL AutoKey documentation master file, created by
-   sphinx-quickstart on Thu Aug 22 16:31:53 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. PyLights documentation master file
 
-EOL AutoKey
+PyLights
 ************************************
 
-EOL AutoKey is a suite of python software to assist in making shows for ETC
-consoles. It provides an object-oriented python interface to light board
-entities, allowing you to script show creation and editing, or export nice
-representations of your show.
+PyLights is a suite of python software for working with ETC consoles and
+:term:`Expression Off-Line`. It provides a remote control server and client
+that can interface with a console via MIDI and track the screen using
+:term:`EOL`, as well as a history tracking feature allowing recall of the
+console state at any give time. Additionally, it provides an object-oriented
+python interface to light board entities, allowing you to script show creation
+and editing and export nice custom representations of your show.
 
 It has limited support for reading and writing ETC's files, and relies mainly
-on sending keystrokes to Expression Off-Line to write most data. For that
-reason, in order to write show data, you must have a windows computer and be
-able to run ETC's Expression Off-Line software.
+on sending keystrokes to :term:`Expression Off-Line` or MIDI messages to a
+console to write most data.
 
 I work with an ETC Express 48/96, so it has been optimized for that console.
-However, it should work fine with other consoles supported by Expression
-Off-Line, in theory, although it may not be able to read their showfiles.
+However, it should work fine with other consoles in theory, although it may
+not be able to read their showfiles or control everything.
 
 Get the Code
 ====================================
 
-The source code is available on github: https://github.com/baryon5/eol-autokey
+The source code is available on github: https://github.com/baryon5/pylights
 
-In order to be able to send keystrokes to :term:`EOL`, you must have python 2.7
-or later with :mod:`pywinauto` installed.
+PyLights is designed to be compatible with both python 2.7 and >=3.2 whereever
+possible. For this reason, `six <https://pypi.python.org/pypi/six/>`_ is bundled
+at :mod:`pylights.libs.six`.
+
+
+Sending commands to :term:`Expression Off-Line` requires several \*nix
+programs/libraries to be installed:
+
+* `Xvfb <http://www.x.org/archive/current/doc/man/man1/Xvfb.1.xhtml>`_
+* `xdotool <http://www.semicomplete.com/projects/xdotool/>`_
+* `wine <http://www.winehq.org/>`_
+
+To install them on Ubuntu (or other debian-based systems), try::
+
+  $ sudo apt-get install xvfb xdotool wine
+
+Sending commands to a physical console is accomplished via MIDI using
+`pygame <http://www.pygame.org/news.html>`_. Additionally, in order for
+PyLight's sent commands to be recognized by the console, a showfile containing
+several macros must be loaded.
 
 Documentation
 ====================================
 
-This documentation assumes you are familiar with an ETC console and related
-concepts (and ideally Expression Off-Line as well), as it only explains how
-those things relate to this python interface.
+If you just want to set up a remote control server and client, read
+:doc:`tutorial`.
 
 .. toctree::
    :maxdepth: 3
+   :glob:
+   :numbered:
 
-   autokey
-   entities
-   builtins
-   etcfiles
+   tutorial
+   daemon/*
+   client/*
+   entities/entities
+   entities/*

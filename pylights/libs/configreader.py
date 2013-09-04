@@ -38,6 +38,21 @@ class Configuration(object):
                 except ValueError:
                     return val
 
+    def get_dict(self,section=None):
+        if self._section:
+            sect = self
+        else:
+            sect = self.get(section)
+        if not sect:
+            raise TypeError("Must specify section!")
+        d = {}
+        try:
+            for i in self._cp.options(section.title()):
+                d[i] = sect.get(i)
+        except configparser.NoSectionError:
+            pass
+        return d
+
     def __getattr__(self,key):
         if key in ("_cp","get","_section"):
             return object.__getattr__(self,key)

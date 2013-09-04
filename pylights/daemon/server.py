@@ -7,6 +7,9 @@ from pylights.libs.six.moves import socketserver
 from pylights.daemon import commands
 from pylights.daemon import commandprocessors
 
+class QueueTypeError(TypeError):
+    pass
+
 class QueueingError(queue.Full):
     pass
 
@@ -42,16 +45,22 @@ class Server(socketserver.ThreadingMixIn,socketserver.TCPServer,object):
         for module in self.modules:
             m = module.__name__.split(".")[-1]
             try:
-                self.processors.append(m.Processor(**self._cp.get_dict(m)))
+                self.processors.append(module.Processor(**self._cp.get_dict(m)))
                 pqueue = self.processors[-1].get_queue()
                 if not isinstance(pqueue,queue.Queue):
-                    raise TypeError(type(pqueue))
+                    raise QueueTypeError(type(pqueue))
                 self.queues.append(pqueue)
+                self.processors[-1].start()
             except AttributeError:
                 print("Invalid module {}, must define Processor() class".format(m))
-            except TypeError as err:
+            except QueueTypeError as err:
                 print("Invalid queue type {}".format(err.args[0]))
         if len(self.queues) < 1:
             print("The server will not start because no queues registered successfully.")
             exit(3)
-        #self.serve_forever()
+        try:
+            self.serve_forever()
+        except KeyboardInterrupt:
+            for i in self.processors:
+                if i.stop(True,10):
+                    print(i,"didn't die!")

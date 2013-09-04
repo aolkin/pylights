@@ -1,7 +1,8 @@
 """Packages that recieve commands and process them"""
 
+import sys,os
+
 from importlib import import_module
-import sys
 
 __all__ = ["eol","midi","history"]
 

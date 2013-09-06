@@ -8,6 +8,7 @@ as some internal packages.
 
 PyLights is designed to be compatible with both python 2.7 and >=3.2 where possible. For
 this reason, [six](https://pypi.python.org/pypi/six/) is bundled at pylights.libs.six.
+However, the shell scripts use python 2.
 
 #### The Daemon Package
 

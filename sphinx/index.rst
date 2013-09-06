@@ -26,8 +26,7 @@ The source code is available on github: https://github.com/baryon5/pylights
 
 PyLights is designed to be compatible with both python 2.7 and >=3.2 whereever
 possible. For this reason, `six <https://pypi.python.org/pypi/six/>`_ is bundled
-at :mod:`pylights.libs.six`.
-
+at :mod:`pylights.libs.six`. However, the shell scripts currently use python 2.
 
 Sending commands to :term:`Expression Off-Line` requires several \*nix
 programs/libraries to be installed:

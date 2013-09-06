@@ -1,11 +1,13 @@
 from __future__ import print_function
 
-import os, sys, time, queue
+import os, sys, time, struct, socket
 
-from pylights.libs.six.moves import socketserver
+from pylights.libs.six.moves import socketserver, queue
 
-from pylights.daemon import commands
+header_struct = struct.Struct("!BBH")
+
 from pylights.daemon import commandprocessors
+from pylights.daemon import handlers as message_handlers
 
 class QueueTypeError(TypeError):
     pass
@@ -15,7 +17,25 @@ class QueueingError(queue.Full):
 
 class Handler(socketserver.StreamRequestHandler):
     def handle(self):
-        pass
+        header = self.rfile.read(4)
+        while len(header) == 4:
+            mtype,subtype,length = header_struct.unpack(header)
+            data = self.rfile.read(length)
+            self.process_message(mtype,subtype,data)
+            try:
+                header = self.rfile.read(4)
+            except socket.error as err:
+                print(err)
+                header = ""
+
+    def process_message(self,mtype,subtype,data):
+        try:
+            message_handlers.get(mtype)(self.server,subtype,data)
+            self.wfile.write("\x00"*4)
+        except Exception as err:
+            error = repr(err)
+            self.wfile.write(header_struct.pack(0xFF,0xFF,len(error)))
+            self.wfile.write(error)
 
 class Server(socketserver.ThreadingMixIn,socketserver.TCPServer,object):
     @classmethod
@@ -60,7 +80,8 @@ class Server(socketserver.ThreadingMixIn,socketserver.TCPServer,object):
             exit(3)
         try:
             self.serve_forever()
-        except KeyboardInterrupt:
+        except BaseException:
             for i in self.processors:
+                print("Stopping {}".format(i.name))
                 if i.stop(True,10):
                     print(i,"didn't die!")

@@ -1,206 +1,201 @@
-"""Helps in mapping nice representations to SendKeys-compatible keystroke strings."""
-
-class KeyMap(dict):
-    def addkeys(self,d):
-        """
-        This accepts a single argument, which should be a dictionary of the form::
-
-            {
-                '<key(s)>': '<name>',
-                '<key(s)>': ('<name1>','<name2>')
-            }
-
-        It will iterate over this dictionary, adding maps for each key/key sequence
-        from the name or names specified. A real example of this can be seen in the
-        :ref:`default-names-content`.
-        """
-        for i in d:
-            if isinstance(d[i],(list,tuple)):
-                self.addkey(i,*d[i])
-            else:
-                self.addkey(i,d[i])
-    def addkey(self,key,*names):
-        """This maps one or more names to a single key."""
-        if len(names) < 1:
-            raise ValueError("Must provide at least one name!")
-        for k in names:
-            self[k] = key
-    def addseq(self,seq,*names):
-        """
-        This maps one or more names to a specially formatted sequence. Use this method
-        when you want to map a key sequence that uses existing keys or sequences.
-        
-        To include existing keys/sequences in your new sequence, simply enclose their
-        names in `<` and `>`.
-        """
-        seq = seq.replace("{","{{").replace("}","}}")
-        seq = seq.replace("<","{").replace(">","}")
-        key = seq.format(**self)
-        self.addkey(key,*names);
-
-names = KeyMap()
-names.addkeys({
-    '^d': ('abback','back'),
-    '^a': 'abclear',
-    '^g': ('abgo','go'),
-    '^f': 'abhold',
-    '^s': 'abrate',
-    '{F3}': 'about',
-    'n': 'and',
-    'a': ('at', '@'),
-    '^k': ('blackout', 'black', 'b/o'),
-    '+{F2}': ('blind','blindmode'),
-    '^c': 'cdback',
-    '^z': 'cdclear',
-    '^b': 'cdgo',
-    '^v': 'cdhold',
-    '^x': 'cdrate',
-    'c': ('channel','chan','ch', 'c'),
-    '{DELETE}': ('clear', 'clr'),
-    'q': ('cue', 'q'),
-    'd': ('dimmer','dim'),
-    '{DOWN}': ('down','downarrow', 'dn'),
-    '{ENTER}': ('enter', ';'),
-    'x': ('except', 'x'),
-    '+{F8}': 'expand',
-    '+{F3}': ('fader', 'fad'),
-    '!': ('focuspoint','fp'),
-    'f': ('full','fl'),
-    'g': ('group'),
-    '?': ('help', '?'),
-    'b': 'label',
-    '{F4}': 'learn',
-    '{LEFT}': ('left','leftarrow'),
-    'v': 'level',
-    '{PGDN}': ('levelwheeldown','leveldown','wheeldown'),
-    '{PGUP}': ('levelwheelup','levelup','wheelup'),
-    'k': 'link',
-    '#': ('loadsub','loadsubmaster'),
-    'm': ('macro','m'),
-    '^e': ('macroenter','menter'),
-    '^w': ('macrowait','mwait'),
-    'o': ('only', 'o'),
-    'j': ('page','subpage','submasterpage'),
-    '+{F6}': 'park',
-    'p': 'part',
-    '+{F5}': 'patch',
-    '{END}': ('ratedown','ratewheeldown'),
-    '{HOME}': ('rateup','ratewheelup'),
-    'r': ('record','rec'),
-    'l': ('release','rel'),
-    '{RIGHT}': ('right','rightarrow'),
-    '+{F7}': 'setup',
-    'u': 'solobump',
-    '+{F1}': 'stage',
-    'e': ('submode','submastermode'),
-    's': ('sub','submaster'),
-    '{F2}': 'swap',
-    't': ('thru','through'),
-    'i': 'time',
-    '^': 'track',
-    '+{F4}': 'tracksheet',
-    '*': 'type',
-    '{UP}': ('up','uparrow'),
-    'w': 'wait',
-    '{SPACE}':'space',
-    '+=': ('+','plus')
-})
-
-### Softkeys
-for i in range(1,9):
-    names.addkey('^{{F{i}}}'.format(i=i),'soft{}'.format(i),
-                 'softkey{}'.format(i),'s{}'.format(i))
-
-### Built-In Sequences
-# Maps several names to pressing "enter" twice.
-names.addseq("<enter><enter>","confirm","confirmed","dblenter","enterenter","doubleenter",";;")
-
-# Maps "forcestage" to a sequence that should put the console in stage mode no matter what.
-names.addseq("<stage><macroenter><clear><stage>","forcestage")
-
-# Maps "save" to the sequence needed to execute the "Write All to Disk" action.
-names.addseq("<setup>3<enter>1<enter><enter><stage>","save")
-
-# Maps "reset" to a sequence that will set up a system reset.
-names.addseq("<setup>4<enter><s1>","forcesystemreset")
-
-names.addseq("<blind><s6>","deletecue", "kill cue")
-names.addseq("<blind><sub><s6>","deletesub","deletesubmaster")
-
-# Maps "pause" to twenty presses of the space key, which is ignored by EOL.
-names.addseq("<space>"*20,"pause")
-
-def get(name,strict=False):
-    """
-    Looks up a name in :data:`names`.
-
-    It will lowercase its argument before performing the lookup, and if it finds nothing it
-    simply returns its argument as-is. As long as `strict` is `False`, it will also remove
-    spaces from its argument. This allows easy lookups of button presses with multi-word names.
-    """
-    if not strict:
-        name = name.replace(" ","")
-    return names.get(name.lower(),name)
-
-def list_to_str(keys):
-    """
-    Performs :func:`get` lookups on a list and :meth:`joins <str.join>` the result together
-    with spaces.
-    """
-    return " ".join([get(i) for i in keys])
-
-def parse_str(keys):
-    """
-    Accepts a single string argument. This should be a nice human-readable sequence of button
-    presses, which will be converted into a string of key strokes suitable for sending to
-    :term:`EOL`.
-
-    It is extremely flexible, and can take almost anything you can throw at it. It will accept
-    any capitalization and spacing, and will even catch multi-word button names. However, if
-    a multi-word button name's first word is itself a button name, it will treat it as that
-    button.
-
-    :func:`parse_str` even allows you to add `<` and `>` around button names, in which case
-    they will simply be ignored. However, as of now, there is no way to include comments in
-    a keystring.
-
-    Examples::
-
-        >>> parse_str('Cue 7 Go')
-        'q 7 ^g'
-        >>> parse_str('Channel 1 at 50 '+
-                      'Channel 2 at 75 '+
-                      'Channel 5 at 27 '+
-                      'Record cue 7 \\n Cue 7 <GO>')
-        'c 1 a 50 c 2 a 75 c 5 a 27 r q 7 q 7 ^g'
-        >>> parse_str('AB Go <stage> AB Clear')
-        '^g +{F1} ^a'
-    """
-    keylist = []
-    keys = keys.replace("<"," ").replace(">"," ").split()
-    keys.reverse()
-    while len(keys) > 0:
-        orig_key = key = keys.pop()
-        pos = 0
-        while 1 > pos > -5:
-            if get(key) != key:
-                keylist.append(key)
-                pos = 5
-            else:
-                pos -= 1
-                try:
-                    key += keys[pos]
-                    if get(key) != key:
-                        keylist.append(key)
-                        pos = pos*-1
-                except IndexError:
-                    pos = 6
-        if 5 > pos > 0:
-            for i in range(pos):
-                keys.pop()
-        elif pos == 6 or pos == -5:
-            keylist.append(orig_key)
-    return list_to_str(keylist)
-            
-    
-        
+{
+    "+": 32, 
+    "-": 33, 
+    ".": 34, 
+    "0": 35, 
+    "1": 36, 
+    "2": 37, 
+    "3": 38, 
+    "4": 39, 
+    "5": 40, 
+    "6": 41, 
+    "7": 42, 
+    "8": 43, 
+    "9": 44, 
+    "A": 45, 
+    "About": 46, 
+    "AddChans": 47, 
+    "Alternate": 48, 
+    "And": 49, 
+    "At": 50, 
+    "Attribute": 51, 
+    "AutoloadEnc": 52, 
+    "B": 53, 
+    "BGOverride": 54, 
+    "Back-AB": 55, 
+    "Back-CD": 56, 
+    "Black": 57, 
+    "Blind": 58, 
+    "Bounce": 59, 
+    "Build": 60, 
+    "BumpStatus": 61, 
+    "Chan": 62, 
+    "Clear": 63, 
+    "Clear-AB": 64, 
+    "Clear-CD": 65, 
+    "CreateCue": 66, 
+    "CreateFocus": 67, 
+    "CreateGroup": 68, 
+    "CreateSub": 69, 
+    "Cue": 70, 
+    "CueList": 71, 
+    "DMX512Start": 72, 
+    "Delete": 73, 
+    "DeleteCue": 74, 
+    "DeleteFixture": 75, 
+    "DeleteFocus": 76, 
+    "DeleteGroup": 77, 
+    "DeleteStep": 78, 
+    "DeleteSub": 80, 
+    "Dim": 81, 
+    "DisableQuick": 82, 
+    "DisableTrack": 83, 
+    "Double": 84, 
+    "Down": 85, 
+    "EnableQuick": 86, 
+    "EnableTrack": 87, 
+    "Enter": 88, 
+    "Except": 89, 
+    "Fader": 90, 
+    "Fixture": 91, 
+    "Flash": 92, 
+    "FlashOff": 93, 
+    "Flip": 94, 
+    "FocusList": 95, 
+    "FocusPnt": 96, 
+    "Follow": 97, 
+    "Full": 98, 
+    "Go-AB": 99, 
+    "Go-CD": 100, 
+    "Group": 101, 
+    "GroupList": 102, 
+    "GroupSpread": 103, 
+    "Help": 104, 
+    "HideDimLabel": 105, 
+    "Hold": 106, 
+    "Hold-AB": 107, 
+    "Hold-CD": 108, 
+    "InDwellOut": 109, 
+    "InsertStep": 110, 
+    "Label": 111, 
+    "Learn": 112, 
+    "Left": 113, 
+    "Level": 114, 
+    "Link": 115, 
+    "Loadsub": 116, 
+    "LowHigh": 117, 
+    "MLAttribute": 118, 
+    "MLBeam": 119, 
+    "MLColor": 120, 
+    "MLImage": 121, 
+    "MLNone": 122, 
+    "MLPatch": 123, 
+    "MLPosition": 124, 
+    "Macro": 125, 
+    "MacroEnter": 126, 
+    "MacroWait": 127, 
+    "MoreSoftkeys": 128, 
+    "Negative": 129, 
+    "NextPage": 130, 
+    "OffBump1": 131, 
+    "OffBump10": 132, 
+    "OffBump11": 133, 
+    "OffBump12": 134, 
+    "OffBump13": 135, 
+    "OffBump14": 136, 
+    "OffBump15": 137, 
+    "OffBump16": 138, 
+    "OffBump17": 139, 
+    "OffBump18": 140, 
+    "OffBump19": 141, 
+    "OffBump2": 142, 
+    "OffBump20": 143, 
+    "OffBump21": 144, 
+    "OffBump22": 145, 
+    "OffBump23": 146, 
+    "OffBump24": 147, 
+    "OffBump3": 148, 
+    "OffBump4": 149, 
+    "OffBump5": 150, 
+    "OffBump6": 151, 
+    "OffBump7": 152, 
+    "OffBump8": 153, 
+    "OffBump9": 154, 
+    "OnBump1": 155, 
+    "OnBump10": 156, 
+    "OnBump11": 157, 
+    "OnBump12": 158, 
+    "OnBump13": 159, 
+    "OnBump14": 160, 
+    "OnBump15": 161, 
+    "OnBump16": 162, 
+    "OnBump17": 163, 
+    "OnBump18": 164, 
+    "OnBump19": 165, 
+    "OnBump2": 166, 
+    "OnBump20": 167, 
+    "OnBump21": 168, 
+    "OnBump22": 169, 
+    "OnBump23": 170, 
+    "OnBump24": 171, 
+    "OnBump3": 172, 
+    "OnBump4": 173, 
+    "OnBump5": 174, 
+    "OnBump6": 175, 
+    "OnBump7": 176, 
+    "OnBump8": 177, 
+    "OnBump9": 178, 
+    "Only": 179, 
+    "Page": 180, 
+    "Park": 181, 
+    "Part": 182, 
+    "Patch": 183, 
+    "Personality": 184, 
+    "Positive": 185, 
+    "PrevPage": 186, 
+    "Profile": 187, 
+    "Random": 188, 
+    "RandomRate": 189, 
+    "Rate": 190, 
+    "Rate-AB": 191, 
+    "Rate-CD": 192, 
+    "Rec": 193, 
+    "Rel": 194, 
+    "RemoteDimmer": 195, 
+    "ReplaceLevel": 196, 
+    "Return": 197, 
+    "Reverse": 198, 
+    "Right": 199, 
+    "SelectCue": 200, 
+    "SelectFader": 201, 
+    "SelectFixture": 202, 
+    "SelectFocus": 203, 
+    "SelectGroup": 204, 
+    "SelectSub": 205, 
+    "Setup": 206, 
+    "ShowDimLabel": 207, 
+    "Sneak": 208, 
+    "Solo": 209, 
+    "Spreadsheet": 210, 
+    "Stage": 211, 
+    "StartChannel": 212, 
+    "Step": 213, 
+    "Steptime": 214, 
+    "Style": 215, 
+    "Sub": 216, 
+    "SubList": 218, 
+    "SubMode": 219, 
+    "SubSolo": 220, 
+    "SubSpread": 221, 
+    "SwapFocus": 222, 
+    "Thru": 223, 
+    "Time": 224, 
+    "Track": 225, 
+    "Tracksheet": 226, 
+    "Type": 227, 
+    "TypeLevel": 228, 
+    "Unpatch": 229, 
+    "Up": 230, 
+    "UpDownFollow": 231, 
+    "Wait": 232
+}

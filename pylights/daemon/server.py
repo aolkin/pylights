@@ -21,8 +21,8 @@ class Handler(socketserver.StreamRequestHandler):
         while len(header) == 4:
             mtype,subtype,length = header_struct.unpack(header)
             data = self.rfile.read(length)
-            self.process_message(mtype,subtype,data)
             try:
+                self.process_message(mtype,subtype,data)
                 header = self.rfile.read(4)
             except socket.error as err:
                 print(err)
@@ -34,6 +34,7 @@ class Handler(socketserver.StreamRequestHandler):
             self.wfile.write("\x00"*4)
         except Exception as err:
             error = repr(err)
+            print(error)
             self.wfile.write(header_struct.pack(0xFF,0xFF,len(error)))
             self.wfile.write(error)
 
@@ -57,7 +58,10 @@ class Server(socketserver.ThreadingMixIn,socketserver.TCPServer,object):
                 i.put(message,True,10)
             except queue.Full as err:
                 errors.append(err)
-        raise QueueingError(errors)
+        if len(errors) > 0:
+            raise QueueingError(errors)
+        else:
+            return True
 
     def start(self):
         self.processors = []

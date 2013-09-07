@@ -68,6 +68,9 @@ class Processor(CommandProcessor):
              ("key Down Down Return Tab Shift+Tab".split(" "))+fn+["Return"],env=self.env)
         call(['xdotool',"search","--sync","--name","Screen 1","windowraise"],env=self.env)
 
+    def process(self,message):
+        print("Processing {}".format(message))
+
 class XKeySender:
     def __init__(self,windowtitle,environ):
         self.windowtitle = windowtitle

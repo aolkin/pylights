@@ -26,13 +26,13 @@ class Client(object):
             return self.sock.recv(length)
 
     def send_raw(self,message):
-        self.send_message(0x10,NULL,message)
+        return self.send_message(0x10,NULL,message)
 
     def send_sequence(self,sequence):
         single_byte = (max(sequence) < 256)
         fmt_char = "B" if single_byte else "H"
         try:
-            self.send_message(0x12,int(not single_byte),struct.pack("!{}{}".format(
+            return self.send_message(0x12,int(not single_byte),struct.pack("!{}{}".format(
                         len(sequence),fmt_char),*sequence))
         except struct.error as err:
             raise ValueError("{} is outside the range of supported commands!".format(
